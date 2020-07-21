@@ -51,11 +51,10 @@ export class ChatListComponent implements OnInit {
     
     this.reloadConversations()
  
-    
-
-
-    this.chat.newMessage().subscribe((message) => { 
-      this.reloadConversations()
+    this.chat.newMessage().subscribe((data : any) => { 
+      // this.reloadConversations()
+      this.conversations = data.conversations
+      this.result = data.conversations
      });
 
 

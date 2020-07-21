@@ -4,6 +4,7 @@ import { DatabaseService } from './database.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,7 +44,8 @@ export function app_init(appService: AppService) {
     ReactiveFormsModule,
     FormsModule,
     NgxAutoScrollModule,
-    HttpClientModule
+    HttpClientModule,
+    PickerModule
   ],
   providers: [DatabaseService ,ChatService ,
      AppService, {

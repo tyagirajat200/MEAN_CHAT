@@ -1,7 +1,7 @@
  
  <div
     class="row  overflow-auto  what pt-2"
-    style="height: 82.7%;"
+    style="height: 82.2%;"
     id="msgContainer"
     ngx-auto-scroll
   >
@@ -24,16 +24,18 @@
 
   <div class="row" style="background-color: #f0f0f0; height: 9%;">
     <form [formGroup]="newMesaage" (ngSubmit)="onSubmit()">
-      <span style="font-size: 30px; padding: 4px;"
-        ><i class="fas fa-smile"></i
-      ></span>
+      <span style="font-size: 30px; padding: 4px;"  class="toggle-emoji align-middle" (click)="toggleEmojiPicker()">
+        😀
+    </span>
       <input
-        type="text"
+        type="textarea"
         class="form-control rounded-pill"
         placeholder="Type Here ...."
         formControlName="message"
-        #search
+        (click)="showEmojiPicker = false"
       />
     </form>
   </div>
+
+  <emoji-mart class="emoji-mart" totalFrequentLines= '2' emoji="point_up" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker"></emoji-mart>
 

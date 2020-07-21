@@ -1,3 +1,4 @@
+
 form{
     display: flex;
     width: 99%;
@@ -19,7 +20,21 @@ padding: 8px;
     }
 
 .what{
-    /* background-image: url('https://web.whatsapp.com/img/bg-chat-tile-light_9e8a2898faedb7db9bf5638405cf81ae.png'); */
+    background-image: url('src\assets\imageedit_3_7384527138.png');
     background-color: #e5ddd5;
     width: 102.5%;
 }
+
+.emoji-mart {
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+  }
+
+  .toggle-emoji svg {
+    width: 28px;
+    height: 28px;
+  }
+  .toggle-emoji{
+      cursor: pointer;
+  }

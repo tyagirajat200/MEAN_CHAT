@@ -28,15 +28,13 @@ export class NewUserComponent implements OnInit {
 
   emailCheck(){
     this.auth.checkValid(this.sendMessage.get('email').value).subscribe(response=>{
-     
-      console.log(response);
       if(response.user._id == this.auth.userData._id)
          {
-          this.msg = 'You Can not send to Yourself'
+          this.msg = 'You can not send to yourself'
           this.user={}
         }
         else{
-          this.msg = response.msg
+          this.msg = 'Message will be sent to '+response.user.name
           this.user =response.user
           this.disable = false 
         }
@@ -44,15 +42,21 @@ export class NewUserComponent implements OnInit {
     },
     error=>{    
       this.msg=error.error.msg
+      this.user={}
     })
   }
 
   onSubmit()
   {    
     this.chat.sendConversationsMessages(this.sendMessage.get('message').value , this.user._id).subscribe(res=>{
+      this.sendMessage.reset()
+      this.msg =''
+      this.user={}
+      this.disable=true
       console.log("Message Sent To new User");
     },
     error=>{
+      alert('Message Not Try Again')
       console.log(error.error);
     })
   }

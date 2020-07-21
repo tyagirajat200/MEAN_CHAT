@@ -9,7 +9,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class ChatService {
 
-  public socket;
+  public socket;   //https://meanchatapp7599.herokuapp.com'           'http://localhost:4000'
 
  public selectedUser: BehaviorSubject<any> = new BehaviorSubject(null)
 
@@ -38,8 +38,8 @@ getConversationsList(){
 
 newMessage(){
 return new Observable(observer => {
-  this.socket.on('messages', (message, id) => {
-            observer.next({message , id});
+  this.socket.on('messages', (message, id , conversations) => {
+            observer.next({message , id, conversations});
         });
 });
 }

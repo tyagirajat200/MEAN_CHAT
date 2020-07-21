@@ -42,7 +42,7 @@
             <button type="button" class="btn btn-primary" (click)="emailCheck()" [disabled]="sendMessage.get('email').invalid">
                 Check
             </button>
-            <span class="ml-4 message align-middle" [ngClass]="{'text-success': msg=='User Available','text-danger': msg !='User Available'}">{{msg}}</span>
+            <span class="ml-4 message align-middle" [ngClass]="{'text-success': msg !='User Not Found','text-danger': msg =='User Not Found'}">{{msg}}</span>
           </div>
           <div class="mb-3">
             <label for="message-text" class="col-form-label">Message:</label>
