@@ -1,0 +1,25 @@
+form{
+    display: flex;
+    width: 99%;
+    margin: auto;
+}
+button{
+    margin-left: 6px;
+}
+
+.first{  
+background-color:#ffffff;
+border-radius: 5px;
+padding: 8px;
+}
+.second{  
+    background-color:#dcf8c6;
+    border-radius: 5px;
+    padding: 8px;
+    }
+
+.what{
+    /* background-image: url('https://web.whatsapp.com/img/bg-chat-tile-light_9e8a2898faedb7db9bf5638405cf81ae.png'); */
+    background-color: #e5ddd5;
+    width: 102.5%;
+}

@@ -1,0 +1,18 @@
+<div class="container-fluid" style="background-color:#e6e6e6;">
+    <div class="header"></div>
+    <mat-card class="child pt-0">
+      <div class="row h-100 ">
+        <div class="col-sm-3" id="list">
+          <app-chat-list ></app-chat-list> 
+        </div>
+        
+        <div class="col-sm-9 border-left border-dark" id="list">
+          <div class="container-fluid p-0 h-100">
+            <app-sidebox ></app-sidebox>
+            <app-chat-box *ngIf="selectedUser"></app-chat-box>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  

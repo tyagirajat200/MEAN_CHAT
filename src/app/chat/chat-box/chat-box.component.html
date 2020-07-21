@@ -1,0 +1,39 @@
+ 
+ <div
+    class="row  overflow-auto  what pt-2"
+    style="height: 82.7%;"
+    id="msgContainer"
+    ngx-auto-scroll
+  >
+  <div class="container">
+    <div class="row m-0" *ngFor="let message of messages">
+      <div class="col-sm-6">
+        <p *ngIf="message.from == selectedUser._id" class="first">
+          {{ message.body }}
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <p *ngIf="message.from != selectedUser._id" class="second">
+          {{ message.body }}
+        </p>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+
+  <div class="row" style="background-color: #f0f0f0; height: 9%;">
+    <form [formGroup]="newMesaage" (ngSubmit)="onSubmit()">
+      <span style="font-size: 30px; padding: 4px;"
+        ><i class="fas fa-smile"></i
+      ></span>
+      <input
+        type="text"
+        class="form-control rounded-pill"
+        placeholder="Type Here ...."
+        formControlName="message"
+        #search
+      />
+    </form>
+  </div>
+

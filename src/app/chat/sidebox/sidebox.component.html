@@ -1,0 +1,37 @@
+
+    <div  class="row"  style="background-color: #ededed; height: 10.4%; ">
+
+      <div class="w-100">
+        <mat-list class="p-0 float-left"  *ngIf="selectedUser">
+          <mat-list-item style="background-color: #ededed;">
+            <img
+            matListAvatar
+            src="https://www.w3schools.com/howto/img_avatar2.png"
+            alt="..."
+          />
+          <h3 matLine class="font-weight-bold">{{ selectedUser.name}}</h3>
+          <p matLine>
+            <span class="demo-2"> {{typing}} </span>
+          </p>
+          </mat-list-item>
+        </mat-list>
+  
+        <div class="float-right p-2">
+
+          <app-new-user class="mr-4"></app-new-user>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  style="outline: none; border: none;">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item style="outline: none; border: none;" (click)="onLogout()" >
+              <i class="fas fa-sign-out-alt font-weight-bold"></i>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+
+        </div>
+      </div>
+    </div>  
+
+  

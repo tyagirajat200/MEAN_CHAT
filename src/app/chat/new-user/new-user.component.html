@@ -1,0 +1,61 @@
+<button
+  type="button"
+  class="btn p-0"
+  data-toggle="modal"
+  data-target="#exampleModal"
+>
+  <span style="font-size: 30px; color: blue; padding-top: 6px;">
+    <i class="fas fa-user-plus"></i>
+  </span>
+</button>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  data-backdrop="static"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="font-weight-bold" id="exampleModalLabel" style="margin-left: 8rem;">New Message</h1>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="sendMessage">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label"
+              >Recipient:</label
+            >
+            <input type="email" class="form-control" id="recipient-name" required formControlName='email' />
+          </div>
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary" (click)="emailCheck()" [disabled]="sendMessage.get('email').invalid">
+                Check
+            </button>
+            <span class="ml-4 message align-middle" [ngClass]="{'text-success': msg=='User Available','text-danger': msg !='User Available'}">{{msg}}</span>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"  required formControlName='message' ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]='disable' (click)='onSubmit()'>Send message</button>
+      </div>
+    </div>
+  </div>
+</div>

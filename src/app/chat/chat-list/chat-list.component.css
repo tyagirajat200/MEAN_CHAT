@@ -1,0 +1,21 @@
+/* style glyph */
+.inner-addon .fas {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+  }
+  
+  /* align glyph */
+  .left-addon .fas   { left:  0px;}
+  .right-addon .fas  { right: 0px;}
+
+
+  .cursor{
+cursor: pointer;
+  }
+
+  .icon{
+    color: green;
+    font-size: 10px;
+    margin-left: 1rem;
+  }
