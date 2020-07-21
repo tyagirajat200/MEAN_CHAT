@@ -1,6 +1,6 @@
-var express = require('./node_modules/express')
+var express = require('express')
 var router = express.Router()
-var bcrypt = require('./node_modules/bcryptjs')
+var bcrypt = require('bcryptjs')
 var Users = require('../Schema/User')
 
 var config= require('../config/key')

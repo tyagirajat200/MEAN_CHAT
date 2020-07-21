@@ -1,16 +1,16 @@
-const express = require("./node_modules/express");
+const express = require("express");
 const app = express();
-const session = require("./node_modules/express-session");
-const MongoDBStore = require("./node_modules/connect-mongodb-session")(session);
-const bodyParser = require('./node_modules/body-parser')
-var morgan = require('./node_modules/morgan')
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const bodyParser = require('body-parser')
+var morgan = require('morgan')
 var mongoose = require('mongoose')
-var cors = require('./node_modules/cors')
+var cors = require('cors')
 var path = require('path')
 
-var UserRoutes = require('./Routes/UserRoutes')
-var chatRoutes = require ('./Routes/ChatRoutes')
-const config = require("./config/key");
+var UserRoutes = require('./backend/Routes/UserRoutes')
+var chatRoutes = require ('./backend/Routes/ChatRoutes')
+const config = require("./backend/config/key");
 const PORT = process.env.PORT || 4000
 
 
@@ -80,7 +80,7 @@ app.use(
     })
   );
 const server = require('http').Server(app);
-const io = require('./node_modules/socket.io')(server);
+const io = require('socket.io')(server);
 
 
 var users = []
