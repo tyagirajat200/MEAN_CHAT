@@ -14,7 +14,7 @@ export class ChatService {
  public selectedUser: BehaviorSubject<any> = new BehaviorSubject(null)
 
   constructor(private http : HttpClient , private data : DatabaseService) {    
-    this.socket = io('http://localhost:4000'+`?userId=${data.userData._id}`)
+    this.socket = io('https://meanchatapp7599.herokuapp.com'+`?userId=${data.userData._id}`)
 
   }
 
