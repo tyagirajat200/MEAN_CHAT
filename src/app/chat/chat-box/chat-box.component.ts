@@ -99,7 +99,7 @@ export class ChatBoxComponent implements OnInit {
             (res: any) => {
               console.log('message sent ');
               // this.messages = Object.assign([...this.messages, res.data]);
-              this.newMesaage.reset();
+              this.newMesaage.get('message').patchValue('')
             },
             (err) => console.log(err.error)
           );
