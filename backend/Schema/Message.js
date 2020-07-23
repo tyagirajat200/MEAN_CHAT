@@ -13,6 +13,10 @@ const MessageSchema = new Schema({
     body: {
         type: String,
         required: true,
+    },
+    msgType:{
+        type:String,
+        required : true
     }
 },{timestamps:true});
 

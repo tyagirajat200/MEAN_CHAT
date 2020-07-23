@@ -1,7 +1,10 @@
 import { ChatService } from './../../chat.service';
 import { DatabaseService } from './../../database.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { finalize } from "rxjs/operators";
+
+import { AngularFireStorage } from "@angular/fire/storage";
 
 @Component({
   selector: 'app-chat-box',
@@ -13,27 +16,38 @@ export class ChatBoxComponent implements OnInit {
   public messages = [];
   public selectedUser;
 
+  isLoading = true
 
+  url :''
+
+  // ******* Emoji **********//
   showEmojiPicker = false;
   toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
   }
-
   addEmoji(event) {
      let data = this.newMesaage.get('message');
      this.newMesaage.get('message').setValue(data.value + event.emoji.native)
   }
+  // ******* Emoji **********//
+
 
   newMesaage = new FormGroup({
     message: new FormControl('', Validators.required),
   });
 
-  constructor(private data: DatabaseService, private chat: ChatService) {}
+  constructor(private data: DatabaseService, private chat: ChatService ,private af : AngularFireStorage) {}
+
+  ngAfterViewInit() {         
+    this.container = document.getElementById("msgContainer");           
+    this.container.scrollTop = this.container.scrollHeight;     
+  }  
 
   reloadMessges(user) {
     this.chat.getConversationsMessages(user._id).subscribe(
       (res) => {
-        this.messages = res.messages;
+        this.isLoading = false
+        this.messages = res.messages;        
       },
       (error) => {
         console.log(error.errro);
@@ -44,19 +58,21 @@ export class ChatBoxComponent implements OnInit {
   ngOnInit(): void {
     this.chat.selectedUser.subscribe((user) => {
       if (user) {
+        this.isLoading =true
         this.selectedUser = user;
         this.reloadMessges(user);
       }
     });
 
     this.chat.newMessage().subscribe((data: any) => {
-      console.log(data);
       if (
         this.chat.selectedUser.getValue() &&
         this.chat.selectedUser.getValue()._id == data.id
       ) {
         // this.reloadMessges(this.chat.selectedUser.getValue());
         this.messages = Object.assign([...this.messages, data.message]);
+        this.container = document.getElementById("msgContainer");           
+    this.container.scrollTop = this.container.scrollHeight; 
       }
     });
 
@@ -69,13 +85,6 @@ export class ChatBoxComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-
-    this.container = document.getElementById('msgContainer');
-    this.container.scrollTop = this.container.scrollHeight;
-  }
 
   onSubmit() {
     if (this.newMesaage.valid) {
@@ -83,11 +92,11 @@ export class ChatBoxComponent implements OnInit {
         this.chat
           .sendConversationsMessages(
             this.newMesaage.get('message').value,
-            this.chat.selectedUser.getValue()._id
+            this.chat.selectedUser.getValue()._id,
+            "text"
           )
           .subscribe(
             (res: any) => {
-              // this.messages =Object.assign([...this.messages , res.data] )
               console.log('message sent ');
               this.newMesaage.reset();
             },
@@ -95,5 +104,50 @@ export class ChatBoxComponent implements OnInit {
           );
       }
     }
+  }
+
+  onFileChange(event){
+
+    var filePath = `Chat/${event.target.files[0].name}_${new Date().getTime()}` 
+
+    console.log(event.target.files[0].type.split('/')[0]);
+    console.log(event.target.files[0].type);
+    
+    var fileRef = this.af.ref(filePath)
+
+    this.af.upload(filePath,event.target.files[0]).snapshotChanges().subscribe(
+    (res)=>{
+      var progress = (res.bytesTransferred / res.totalBytes) * 100;
+      console.log(progress);
+    },
+    (error) => {
+      console.log(error)
+    },
+    ()=>{
+        fileRef.getDownloadURL().subscribe(url=>{
+          if (this.chat.selectedUser.getValue()) {
+            this.chat
+              .sendConversationsMessages(
+                url,
+                this.chat.selectedUser.getValue()._id,
+                event.target.files[0].type.split('/')[0]
+              )
+              .subscribe(
+                (res: any) => {
+                  console.log('message sent => ' ,res);
+                },
+                (err) => console.log(err.error)
+              );
+          }
+        })
+    }
+    )
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.chat.selectedUser.next(null)
+    
   }
 }

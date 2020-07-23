@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Message = require('../Schema/Message');
 const Conversation = require('../Schema/Conversation');
+var mongoose = require('mongoose')
 
 
 
@@ -50,17 +51,20 @@ router.post('/', authChecker, (req, res) => {
     const sender = req.users.find(user => user.userId == user1)
 
 
-    Conversation.replaceOne(
-        { recipients: { $all: [user1, user2] } },
-        { recipients: [user1, user2], lastMessage: req.body.body },
-        { new: true, upsert: true })
+    Conversation.findOneAndUpdate(
+        { $or : [{recipients:[user1,user2]},{recipients:[user2,user1]}]},
+        {recipients: [user1, user2], lastMessage: req.body.body , msgType : req.body.type},
+        { new: true, upsert: true ,setDefaultsOnInsert: true })
         .exec((err, conversation) => {
+            console.log(err);
             if (err) return res.status(400).json({ message: 'Failure' });
             else {
+                console.log(conversation);
                 let message = new Message({
                     to: req.body.to,
                     from: user1,
                     body: req.body.body,
+                    msgType : req.body.type
                 });
 
                 message.save((err, data) => {

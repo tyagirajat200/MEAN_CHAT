@@ -1,16 +1,15 @@
 <div class="container-fluid p-0 h-100">
-  <div class="row" style="height: 15%;">
+  <div class="container" style="height: 16%;background-color: #00d68f; padding: 0;">
     <mat-list class="p-0">
-      <mat-list-item style="background-color: #ededed;">
-       
+      <mat-list-item>
           <img
             matListAvatar
             src="https://www.w3schools.com/howto/img_avatar2.png"
             alt="..."
           />
+          <mat-divider></mat-divider>
       </mat-list-item>
-
-      <mat-list-item style="background-color: #f6f6f6;" [formGroup]='searchForm'>
+      <mat-list-item  [formGroup]='searchForm'>
         <input
         type="text"
         class="form-control rounded-pill"
@@ -21,30 +20,42 @@
     </mat-list>
   </div>
 
-  <div class="row overflow-auto" style="height: 87%;">
-    <mat-list class="p-0">
-      <mat-list-item
-        *ngFor="let conversation of conversations"
-        (click)="setUser(conversation)"
-        class="cursor"
-      >
-        <img
-          matListAvatar
-          src="https://www.w3schools.com/howto/img_avatar2.png"
-          alt="..."
-        />
-        <h3 matLine class="font-weight-bolder">
-          <span>{{ handleRecipient(conversation.recipients).name}}</span>
-          <span class="icon align-middle" *ngIf=checkOnline(conversation)>
-            <i class="fas fa-circle"></i>
-          </span>
-        </h3>
-        <p matLine>
-          <!-- <span> {{ "span" }} </span> -->
-          <span class="demo-2"> -- {{ conversation.lastMessage }}</span>
-        </p>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
+  <div class="row overflow-auto" style="height: 84%;" >
+    
+
+    <ng-container *ngIf="isLoading; else elseTemplate">
+      <app-loading></app-loading>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <mat-list class="p-0">
+        <mat-list-item
+          *ngFor="let conversation of conversations"
+          (click)="setUser(conversation)"
+          class="cursor"
+        >
+          <img
+            matListAvatar
+            src="https://www.w3schools.com/howto/img_avatar2.png"
+            alt="..."
+          />
+          <h3 matLine class="font-weight-bolder">
+            <span>{{ handleRecipient(conversation.recipients).name}}</span>
+            <span class="icon align-middle" *ngIf=checkOnline(conversation)>
+              <i class="fas fa-circle"></i>
+            </span>
+          </h3>
+          <p matLine>
+            <span *ngIf="conversation.msgType == 'text'"> {{ conversation.lastMessage }} </span>
+            <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType != 'text'"> -- Image</span>
+          </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+
+    </ng-template>
+    
+
+   
   </div>
+
 </div>

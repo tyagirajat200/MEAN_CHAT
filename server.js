@@ -45,7 +45,7 @@ mongoDBstore.on('error', () => console.log("mongoDBstore not connected"))
 
 app.use(function (req, res, next) {
 
-    res.header("Access-Control-Allow-Origin", "https://meanchatapp7599.herokuapp.com");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Credentials", "true")
     res.header(
         "Access-Control-Allow-Headers",

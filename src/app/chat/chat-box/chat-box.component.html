@@ -1,41 +1,70 @@
+
+
  
- <div
-    class="row  overflow-auto  what pt-2"
-    style="height: 82.2%;"
-    id="msgContainer"
-    ngx-auto-scroll
-  >
-  <div class="container">
-    <div class="row m-0" *ngFor="let message of messages">
-      <div class="col-sm-6">
-        <p *ngIf="message.from == selectedUser._id" class="first">
-          {{ message.body }}
-        </p>
-      </div>
-      <div class="col-sm-6">
-        <p *ngIf="message.from != selectedUser._id" class="second">
-          {{ message.body }}
-        </p>
-      </div>
-    </div>
-  </div>
+ 
+ <div class="container p-0"  style="height: 88.7%"  #scrollMe>
+
+  <div
+  class=" container overflow-auto  main pt-2"
+  style="height: 92.2%;"
+  ngx-auto-scroll
+  id="msgContainer"
+ >
+
+ <ng-container *ngIf="isLoading; else elseTemplate">
+   <app-loading></app-loading>
+ </ng-container>
+ <ng-template #elseTemplate>
+  <ul>
+    <li
+      *ngFor="let message of messages"
+      [style.flex-direction]="
+        message.from == selectedUser._id
+          ? 'row'
+          : 'row-reverse'
+      "
+    >
+    <p *ngIf="message.msgType =='text'" [ngClass]="{'first': message.from == selectedUser._id ,'second': message.from != selectedUser._id }"> {{ message.body }}</p>
     
-  </div>
+    <img *ngIf="message.msgType == 'image'" class="img-fluid mb-2" [src]="message.body" alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }">
+  </li>
+  </ul>
+ </ng-template>
+ 
 
-  <div class="row" style="background-color: #f0f0f0; height: 9%;">
-    <form [formGroup]="newMesaage" (ngSubmit)="onSubmit()">
-      <span style="font-size: 30px; padding: 4px;"  class="toggle-emoji align-middle" (click)="toggleEmojiPicker()">
-        😀
-    </span>
-      <input
-        type="textarea"
-        class="form-control rounded-pill"
-        placeholder="Type Here ...."
-        formControlName="message"
-        (click)="showEmojiPicker = false"
-      />
-    </form>
-  </div>
 
-  <emoji-mart class="emoji-mart" totalFrequentLines= '2' emoji="point_up" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker"></emoji-mart>
+ 
+
+  
+ </div>
+ 
+ <div class="container" style="background-color: #f0f0f0; height: 7.8%;">
+  <form [formGroup]="newMesaage" (ngSubmit)="onSubmit()" class="pt-1">
+    <span style="font-size: 25px;padding: 4px;"  class="toggle-emoji align-middle " (click)="toggleEmojiPicker()">
+      <i class="fas fa-smile"></i>
+  </span>
+  <div class="form-file form-file-sm upload mx-2">
+    <input type="file" class="form-file-input border border-black" id="customFileSm" (change)='onFileChange($event)' accept="video/*,image/*" >
+    <label class="form-file-label" for="customFileSm">
+      <span style="font-size: 25px; padding: 4px;color: blue;">
+        <i class="fas fa-upload"></i>
+      </span>
+    </label>
+  </div>
+    <input
+      type="textarea"
+      class="form-control rounded-pill"
+      placeholder="Type Here ...."
+      formControlName="message"
+      (click)="showEmojiPicker = false"
+    />
+  </form>
+ </div>
+
+ 
+
+ 
+ </div> 
+
+<emoji-mart class="emoji-mart" totalFrequentLines= '2' emoji="point_up" (emojiSelect)="addEmoji($event)" *ngIf="showEmojiPicker"></emoji-mart>
 

@@ -1,64 +1,48 @@
+form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  h1 {
+    padding-left: 10px;
+    margin: 0;
+  }
+  
+  img {
+    margin: 20px;
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+  
+  span,
+  a {
+    font-family: Roboto-Regular;
+    font-size: 16px;
 
-.body{
-    background-image:url('src\assets\background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    font-family: 'Numans', sans-serif;
-    }
+  }
+  
+  .login-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 300px;
+  }
 
-.container{
+  .login-page {  
     height: 100%;
-    align-content: center;
-    }
-    
-    .card{
-    height: 370px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 400px;
-    background-color: rgba(0,0,0,0.5) !important;
-    }
-    
-    .card-header h3{
-    color: white;
-    font-size: 30px;
-    }
-    
-    .social_icon{
-    position: absolute;
-    right: 20px;
-    top: -45px;
-    }
-    
-    .input-group-prepend {
-    width: 50px;
-    background-color: #FFC312;
-    color: black;
-    border:0 !important;
-    }
-    
-    input:focus{
-    outline: 0 0 0 0  !important;
-    box-shadow: 0 0 0 0 !important;
-    
-    }
-    
-    .login_btn{
-    color: black;
-    background-color: #FFC312;
-    width: 100px;
-    }
-    
-    .login_btn:hover{
-    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+  }
+  
+  .login-box {
     background-color: white;
-    }
-    
-    .links{
-    color: white;
-    }
-    
-    .links a{
-    margin-left: 4px;
-    }
+    border-radius: 6px;
+    box-shadow: 0 2px 38px 0 rgba(45, 49, 63, 0.4);
+    display: flex;
+    border: 1px solid black;
+    padding: 40px;
+  }

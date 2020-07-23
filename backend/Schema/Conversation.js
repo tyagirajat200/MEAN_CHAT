@@ -7,6 +7,10 @@ const ConversationSchema = new Schema({
     lastMessage: {
         type: String,
         required: true
+    },
+    msgType:{
+        type:String,
+        required:true
     }
 },{timestamps:true});
 const Conversation =new  mongoose.model('Conversation', ConversationSchema)

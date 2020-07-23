@@ -48,7 +48,7 @@ export class NewUserComponent implements OnInit {
 
   onSubmit()
   {    
-    this.chat.sendConversationsMessages(this.sendMessage.get('message').value , this.user._id).subscribe(res=>{
+    this.chat.sendConversationsMessages(this.sendMessage.get('message').value , this.user._id ,"text").subscribe(res=>{
       this.sendMessage.reset()
       this.msg =''
       this.user={}

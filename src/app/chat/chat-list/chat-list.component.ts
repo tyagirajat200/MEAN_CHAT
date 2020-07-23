@@ -13,6 +13,8 @@ export class ChatListComponent implements OnInit {
   public onlineUsers :any= []   // contain socketId and userId
   public result = [];
 
+  isLoading  = true
+
 
   searchForm = new FormGroup({
     search: new FormControl('')
@@ -39,6 +41,7 @@ export class ChatListComponent implements OnInit {
         this.conversations = response.conversations;
         this.result = response.conversations
         console.log(response);
+        this.isLoading = false
       },
       (error) => {
         console.log(error.error);

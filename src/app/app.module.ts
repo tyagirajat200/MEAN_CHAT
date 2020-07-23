@@ -20,6 +20,11 @@ import { RegisterComponent } from './User/register/register.component';
 import { NewUserComponent } from './chat/new-user/new-user.component';
 import { SideboxComponent } from './chat/sidebox/sidebox.component';
 
+import { AngularFireStorageModule } from "@angular/fire/storage";
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "../environments/environment";
+import { LoadingComponent } from './loading/loading.component';
+
 
 export function app_init(appService: AppService) {
   return () => appService.initializeApp();
@@ -35,6 +40,8 @@ export function app_init(appService: AppService) {
     RegisterComponent,
     NewUserComponent,
     SideboxComponent,
+    LoadingComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -45,7 +52,9 @@ export function app_init(appService: AppService) {
     FormsModule,
     NgxAutoScrollModule,
     HttpClientModule,
-    PickerModule
+    PickerModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [DatabaseService ,ChatService ,
      AppService, {

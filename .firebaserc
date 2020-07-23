@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "library-c24c3": {
+      "hosting": {
+        "chat": [
+          "library-c24c3"
+        ]
+      }
+    }
+  }
+}

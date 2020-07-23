@@ -1,18 +1,27 @@
-<div class="container-fluid" style="background-color:#e6e6e6;">
-    <div class="header"></div>
-    <mat-card class="child pt-0">
-      <div class="row h-100 ">
-        <div class="col-sm-3" id="list">
-          <app-chat-list ></app-chat-list> 
-        </div>
-        
-        <div class="col-sm-9 border-left border-dark" id="list">
-          <div class="container-fluid p-0 h-100">
-            <app-sidebox ></app-sidebox>
-            <app-chat-box *ngIf="selectedUser"></app-chat-box>
+<div class="container-fluid parent" style="background-color:#ededed;">
+
+      <mat-card class="child p-0">
+        <div class="row h-100 ">
+          <div class="col-sm-3 h-100 pr-0" >
+            <app-chat-list ></app-chat-list> 
+          </div>
+          
+          <div class="col-sm-9 border-left border-dark h-100 pl-0" >
+            <div class="container-fluid p-0 h-100">
+              <app-sidebox ></app-sidebox>
+              <app-chat-box *ngIf="selectedUser"></app-chat-box>
+
+              <div class="container-fluid image" *ngIf="!selectedUser">
+                  <img class="img-fluid" src="https://raw.githubusercontent.com/cometchat-pro-tutorials/angular-one-on-one-chat/b3a0bf561bf007e5184ad2b3fd281ef5335f4bb4/src/assets/no-messages-illustration.svg" />
+                  <span class="title text-primary">Select Chat From Chat List</span>
+                  <span class="info">Or Start New Chat</span>
+              </div>
+            </div>
+
+
           </div>
         </div>
-      </div>
-    </mat-card>
+      </mat-card>
+
   </div>
   
