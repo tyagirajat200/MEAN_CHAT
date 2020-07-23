@@ -71,7 +71,7 @@ app.use(
       resave: false,
       saveUninitialized: false,
       store: mongoDBstore,
-      proxy : true,              // this should be true for session to be work on heroku
+      proxy : false,              // this should be true for session to be work on heroku
       cookie: {
         maxAge: 1000 * 60 * 60 * 3, // Three hours
         sameSite: false,
