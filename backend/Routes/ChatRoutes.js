@@ -66,19 +66,11 @@ router.post('/', authChecker, (req, res) => {
 
                 message.save((err, data) => {
                     if (err) return res.status(400).json({ message: 'Failure' });
-
-                    Conversation.find({ recipients: { $all: [{ $elemMatch: { $eq: user1 } }] } })
-                        .sort({ 'updatedAt': -1 })
-                        .populate('recipients',{'password':0,'__v':0})
-                        .exec((err, conversations) => {
-                            if (err) return res.status(400).json({ message: 'Failure' });
-
-                            res.json({ success: true, data });
-                            // if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1,conversations); }
-                            // req.io.to(sender.socketId).emit('messages', data, user2,conversations);
-                            req.io.to(user2).emit('messages', data, user1,conversations);
-                            req.io.to(user1).emit('messages', data, user2,conversations);
-                        });
+                    res.json({ success: true, data });
+                    // if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1,conversations); }
+                    // req.io.to(sender.socketId).emit('messages', data, user2,conversations);
+                    req.io.to(user2).emit('messages', data, user1);
+                    req.io.to(user1).emit('messages', data, user2);
                 });
             }
         }

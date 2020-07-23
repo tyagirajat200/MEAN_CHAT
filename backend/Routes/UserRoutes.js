@@ -120,7 +120,6 @@ router.post('/checkValid',authChecker, (req, res) => {
 
         if (data)
            { 
-               console.log(data);
                res.json({ success: true, user: data, msg: 'User Available' })}
         else
             res.status(400).json({ success: true, msg: 'User Not Found' })
