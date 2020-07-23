@@ -26,7 +26,8 @@
     >
     <p *ngIf="message.msgType =='text'" [ngClass]="{'first': message.from == selectedUser._id ,'second': message.from != selectedUser._id }"> {{ message.body }}</p>
     
-    <img *ngIf="message.msgType == 'image'" class="img-fluid mb-2" [src]="message.body" alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }">
+    <img *ngIf="message.msgType == 'image'" class="mb-2" [src]="message.body" alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }">
+    <video  *ngIf="message.msgType == 'video'" [src]="message.body" controls alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }" style="background-color: black;"></video>
   </li>
   </ul>
  </ng-template>

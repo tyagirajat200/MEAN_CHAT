@@ -1,7 +1,7 @@
 import { ChatService } from './../../chat.service';
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-chat-home',
@@ -20,5 +20,7 @@ export class ChatHomeComponent implements OnInit {
     this.chat.selectedUser.subscribe(value=>{
       this.selectedUser=value
      })
+
   }
+  
 }

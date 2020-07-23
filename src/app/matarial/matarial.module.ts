@@ -18,6 +18,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {MatDividerModule} from '@angular/material/divider'
 import {CdkScrollableModule} from '@angular/cdk/scrolling';
 import {MatIconModule} from '@angular/material/icon';
+
 const materialComponents = [
   // CDK
   CdkScrollableModule,

@@ -12,7 +12,10 @@
           <mat-form-field>
             <input matInput placeholder="Password" type="password" formControlName='password' />
           </mat-form-field>
-          <button mat-raised-button color="primary">LOG IN</button>
+          <button mat-raised-button color="primary" [disabled]='isloading' type="submit">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="isloading"></span>
+            LOG IN
+          </button>
         </form>
         <div class="mt-3">
           <span>Don't have an account?</span>

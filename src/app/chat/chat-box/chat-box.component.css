@@ -10,10 +10,9 @@ button {
 .first {
   background-color: #ffffff;
   color: #222b45;
-  padding: 1em;
-  margin-right: 20px;
+  padding: 0.5em;
   max-width: 50%;
-  min-width: 30%;
+  min-width: 10%;
   word-wrap: break-word;
   border-radius: 0.4em;
   font-size: 17px;
@@ -22,34 +21,28 @@ button {
 .second {
   background-color: #dcf8c6;
   color: #222b45;
-  padding: 1em;
+  padding: 0.5em;
   max-width: 50%;
-  min-width: 30%;
+  min-width: 10%;
   word-wrap: break-word;
   border-radius: 0.4em;
-  margin-left: 20px;
   font-size: 17px;
   text-align: left;
 }
 
 .img-first{
   background-color: #ffffff;
-  padding: 0.7em;
-  margin-right: 20px;
+  padding: 0.5em;
   border-radius: 0.4em;
-  height: 200px;
+  height: 300px;
   width: 300px;
-  max-width: 40%;
 }
 .img-second{
   background-color: #dcf8c6;
-  padding: 0.7em;
-  margin-left: 20px;
+  padding: 0.5em;
   border-radius: 0.4em;
-  height: 200px;
+  height: 300px;
   width: 300px;
-  max-width: 40%;
-
 }
 
 .main {
@@ -59,8 +52,8 @@ button {
 
 }
 ul {
-    padding: 0 1em;
-    margin: 0;
+    padding: 0;
+    margin: 3em;
   }
 
 li {

@@ -22,9 +22,10 @@ router.get('/conversations', authChecker, (req, res) => {
     let from = req.session.user._id;
     Conversation.find({ recipients: { $all: [{ $elemMatch: { $eq: from } }] } })
         .sort({ 'updatedAt': -1 })
-        .populate('recipients')
+        .populate('recipients',{'password':0,'__v':0})
         .exec((err, conversations) => {
             if (err) return res.status(400).json({ message: 'Failure' });
+            console.log(conversations);
             res.json({ success: true, conversations });
         });
 });
@@ -72,7 +73,7 @@ router.post('/', authChecker, (req, res) => {
 
                     Conversation.find({ recipients: { $all: [{ $elemMatch: { $eq: user1 } }] } })
                         .sort({ 'updatedAt': -1 })
-                        .populate('recipients')
+                        .populate('recipients',{'password':0,'__v':0})
                         .exec((err, conversations) => {
                             if (err) return res.status(400).json({ message: 'Failure' });
 

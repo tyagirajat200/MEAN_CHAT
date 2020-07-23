@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
 
   public msg : string
 
+  isloading = false
+
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -26,16 +28,18 @@ export class LoginComponent implements OnInit {
   onSubmit() {
   
     if (this.loginForm.valid) {
+      this.isloading = true
       this.auth.loginUser(this.loginForm.value).subscribe(
         (response) => {
           this.auth.isAuth=true
           this.auth.userData = (response.User)
           this.msg = response.msg;
+          this.isloading = false
           this.router.navigate(['chat'])
         },
         (error) => {
           this.msg = error.error.error;
-          this.loginForm.enable()
+          this.isloading = false
         }
       );
     }

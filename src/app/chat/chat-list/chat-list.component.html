@@ -7,6 +7,7 @@
             src="https://www.w3schools.com/howto/img_avatar2.png"
             alt="..."
           />
+          <span class="text-white font-weight-bold pb-3 pl-2">{{currentUser.name}}</span>
           <mat-divider></mat-divider>
       </mat-list-item>
       <mat-list-item  [formGroup]='searchForm'>
@@ -46,7 +47,8 @@
           </h3>
           <p matLine>
             <span *ngIf="conversation.msgType == 'text'"> {{ conversation.lastMessage }} </span>
-            <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType != 'text'"> -- Image</span>
+            <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType == 'image'"> -- Image</span>
+            <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType == 'video'"> -- Video</span>
           </p>
           <mat-divider></mat-divider>
         </mat-list-item>

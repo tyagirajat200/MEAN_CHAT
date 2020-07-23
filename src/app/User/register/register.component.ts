@@ -1,6 +1,7 @@
 import { DatabaseService } from './../../database.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
   public msg: string;
+  isloading = false
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -17,19 +19,23 @@ export class RegisterComponent implements OnInit {
     cpassword: new FormControl('', [Validators.required]),
   });
 
-  constructor(private auth: DatabaseService) {}
+  constructor(private auth: DatabaseService ,private router : Router) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.isloading=true
       this.auth.registerUser(this.registerForm.value).subscribe(
         (response) => {
           this.msg = response.msg;
           this.registerForm.reset()
+          this.isloading=false
+          this.router.navigate(['login'])
         },
         (error) => {
           this.msg = error.error.error;
+          this.isloading=false
         }
       );
     }

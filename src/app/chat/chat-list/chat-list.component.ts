@@ -13,6 +13,8 @@ export class ChatListComponent implements OnInit {
   public onlineUsers :any= []   // contain socketId and userId
   public result = [];
 
+  public currentUser = this.data.userData
+
   isLoading  = true
 
 
@@ -45,6 +47,8 @@ export class ChatListComponent implements OnInit {
       },
       (error) => {
         console.log(error.error);
+        this.isLoading = false
+        alert('Error While Fetching Your Conversations')
       }
     );
   }

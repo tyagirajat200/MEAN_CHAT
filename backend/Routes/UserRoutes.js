@@ -107,7 +107,7 @@ router.get("/authchecker", authChecker, (req, res) => {
 });
 
 router.get('/getUsers', authChecker, (req, res) => {
-    Users.find({}).exec((err, data) => {
+    Users.find({}).select("-password -__v").exec((err, data) => {
         if (!err) res.json({ success: true, users: data })
     })
 })
@@ -115,11 +115,13 @@ router.get('/getUsers', authChecker, (req, res) => {
 
 router.post('/checkValid',authChecker, (req, res) => {
     console.log(req.body);
-    Users.findOne({ email: req.body.email }).exec((err, data) => {
+    Users.findOne({ email: req.body.email }).select("-password -__v").exec((err, data) => {
         if (err) return res.status(400).json({ msg: "Please Try Again" })
 
         if (data)
-            res.json({ success: true, user: data, msg: 'User Available' })
+           { 
+               console.log(data);
+               res.json({ success: true, user: data, msg: 'User Available' })}
         else
             res.status(400).json({ success: true, msg: 'User Not Found' })
     })
