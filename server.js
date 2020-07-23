@@ -109,6 +109,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         users=users.filter(user=>user.socketId!=socket.id)
       console.log('user disconnected = ',socket.id);
+      socket.leave(userId)
       io.emit('newUser' , users)
     });
 
