@@ -27,7 +27,10 @@ export class ChatBoxComponent implements OnInit {
   }
   addEmoji(event) {
      let data = this.newMesaage.get('message');
-     this.newMesaage.get('message').setValue(data.value + event.emoji.native)
+     if(data)
+          this.newMesaage.get('message').patchValue(data.value + event.emoji.native)
+      else
+          this.newMesaage.get('message').patchValue(event.emoji.native)
   }
   // ******* Emoji **********//
 
