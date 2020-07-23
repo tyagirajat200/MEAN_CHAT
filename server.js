@@ -89,16 +89,21 @@ var users = []
 io.on('connection', (socket) => {
 
     const userId = socket.request._query['userId']
-    
+    socket.join(userId)
+
+  //  users= users.filter(user => user.userId != userId)
+
     users.push({socketId :socket.id , userId : userId})
-     console.log('user connected = ',socket.id + " "+ userId);
+
+    console.log('user connected = ',socket.id + " "+ userId);
 
     io.emit('newUser' , users)
 
     socket.on('typing', (receiver ,sender)=>{
        const a= users.find(user=>user.userId == receiver)
-       if(a)
-         io.to(a.socketId).emit('typing', sender)
+      //  if(a)
+      //    io.to(a.socketId).emit('typing', sender)
+        io.to(receiver).emit('typing' , sender)
       })
 
     socket.on('disconnect', () => {

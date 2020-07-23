@@ -25,7 +25,6 @@ router.get('/conversations', authChecker, (req, res) => {
         .populate('recipients',{'password':0,'__v':0})
         .exec((err, conversations) => {
             if (err) return res.status(400).json({ message: 'Failure' });
-            console.log(conversations);
             res.json({ success: true, conversations });
         });
 });
@@ -48,19 +47,16 @@ router.post('/', authChecker, (req, res) => {
     let user1 = req.session.user._id;
     let user2 = req.body.to;
 
-    const reciever = req.users.find(user => user.userId == user2)
-    const sender = req.users.find(user => user.userId == user1)
-
+    // const reciever = req.users.find(user => user.userId == user2)
+    // const sender = req.users.find(user => user.userId == user1)
 
     Conversation.findOneAndUpdate(
         { $or : [{recipients:[user1,user2]},{recipients:[user2,user1]}]},
         {recipients: [user1, user2], lastMessage: req.body.body , msgType : req.body.type},
         { new: true, upsert: true ,setDefaultsOnInsert: true })
         .exec((err, conversation) => {
-            console.log(err);
             if (err) return res.status(400).json({ message: 'Failure' });
             else {
-                console.log(conversation);
                 let message = new Message({
                     to: req.body.to,
                     from: user1,
@@ -78,8 +74,10 @@ router.post('/', authChecker, (req, res) => {
                             if (err) return res.status(400).json({ message: 'Failure' });
 
                             res.json({ success: true, data });
-                            if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1,conversations); }
-                            req.io.to(sender.socketId).emit('messages', data, user2,conversations);
+                            // if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1,conversations); }
+                            // req.io.to(sender.socketId).emit('messages', data, user2,conversations);
+                            req.io.to(user2).emit('messages', data, user1,conversations);
+                            req.io.to(user1).emit('messages', data, user2,conversations);
                         });
                 });
             }

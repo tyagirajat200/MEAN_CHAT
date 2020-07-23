@@ -64,7 +64,7 @@ newUser()
 onTyping()
 {
   return new Observable(observer => {
-    this.socket.on('typing', sender => {
+    this.socket.on('typing', sender => { 
               observer.next(sender);
           });
   });

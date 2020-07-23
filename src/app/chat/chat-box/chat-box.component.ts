@@ -69,10 +69,7 @@ export class ChatBoxComponent implements OnInit {
         this.chat.selectedUser.getValue() &&
         this.chat.selectedUser.getValue()._id == data.id
       ) {
-        // this.reloadMessges(this.chat.selectedUser.getValue());
         this.messages = Object.assign([...this.messages, data.message]);
-        this.container = document.getElementById("msgContainer");           
-    this.container.scrollTop = this.container.scrollHeight; 
       }
     });
 
@@ -98,6 +95,7 @@ export class ChatBoxComponent implements OnInit {
           .subscribe(
             (res: any) => {
               console.log('message sent ');
+              // this.messages = Object.assign([...this.messages, res.data]);
               this.newMesaage.reset();
             },
             (err) => console.log(err.error)

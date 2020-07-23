@@ -60,6 +60,8 @@ export class ChatListComponent implements OnInit {
  
     this.chat.newMessage().subscribe((data : any) => { 
       // this.reloadConversations()
+      // console.log(data);
+      
       this.conversations = data.conversations
       this.result = data.conversations
      });
