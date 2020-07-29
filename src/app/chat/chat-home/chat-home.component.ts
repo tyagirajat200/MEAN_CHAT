@@ -51,7 +51,7 @@ export class ChatHomeComponent implements OnInit {
           setTimeout(() => {
             this.chat.socket.emit('start_call', data)
             console.log("start")
-           }, 2000);
+           }, 6000);
         }
       }
      else

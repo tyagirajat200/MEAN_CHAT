@@ -6,7 +6,6 @@ import { ThrowStmt } from '@angular/compiler';
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
 const mediaConstraints = {
-  audio: true,
   video: true,
 }
 

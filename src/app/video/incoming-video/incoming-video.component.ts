@@ -5,7 +5,6 @@ import { DatabaseService } from 'src/app/database.service';
 const { RTCPeerConnection, RTCSessionDescription } = window;
 
 const mediaConstraints = {
-  audio: true,
   video: true,
 }
 
