@@ -1,0 +1,49 @@
+
+  <div  class="container main p-0 h-100" id="profile">
+    <div class=" d-flex flex-row pl-2 pt-3">
+      <span (click) ='onProfile()' class="close"> <i class="fas fa-arrow-left"></i>  </span>
+      <span>
+        <p class="h5 m-0 pl-3" [ngClass]="{'text-danger': error ==true , 'text-white' : error == false}">{{msg}}</p>
+      </span>
+    </div>
+
+    <div class="imgcontainer py-2">
+        <input type="file" name="file" id="file" class="inputfile"  (change)='image($event)' accept="image/*"/>
+        <label for="file">
+          <img [src]='imageSrc' alt="Avatar" class="avatar">
+        </label>
+        <br><br>
+        <button mat-raised-button color="primary" class="text-center" (click)='updateImage()' [disabled]='imageLoading'>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="imageLoading"></span>
+          Update Image</button>
+      </div>
+
+      <br>
+      <div  class="py-2 bg-white field">
+          <mat-form-field class="w-75">
+           <input matInput placeholder='Your Name' type="text" [(ngModel)]="name" required/>
+        </mat-form-field>
+       <button mat-raised-button color="primary"  class="text-center" (click)='updateName()' [disabled]='nameLoading  || !name'>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="nameLoading"></span>
+         Update Name
+       </button>
+      </div>
+      <br><br>
+
+      <div class="py-2 bg-white field">
+        <mat-form-field class="w-75 ">
+          <input matInput placeholder="Old Password" type="password"  [(ngModel)]="oldPassword" required autocomplete="false"/>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="w-75">
+          <input matInput placeholder="New Pasword" type="password" [(ngModel)]="newPassword" required autocomplete="false"/>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="w-75">
+          <input matInput placeholder="Confirm New Password" type="password" [(ngModel)]="confirmPassword" required autocomplete="false"/>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)='updatePassword()' [disabled]='passwordLoading'>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="passwordLoading"></span>
+          Change Password</button>
+    </div>
+            </div>    

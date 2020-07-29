@@ -20,8 +20,11 @@ export class PrivateGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean | UrlTree {
 
-    
-    if (this.auth.isAuth) return true;
+    if (this.auth.isLoggedIn())
+    {
+     this.auth.userData = JSON.parse(localStorage.getItem('user'))   
+      return true;
+    }
     else return this.router.navigate(['login']);
   }
 }

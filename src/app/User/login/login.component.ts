@@ -31,11 +31,11 @@ export class LoginComponent implements OnInit {
       this.isloading = true
       this.auth.loginUser(this.loginForm.value).subscribe(
         (response) => {
-          this.auth.isAuth=true
-          this.auth.userData = (response.User)
           this.msg = response.msg;
+          localStorage.setItem('access_token', response.token)
+          localStorage.setItem('user',JSON.stringify(response.user))
           this.isloading = false
-          this.router.navigate(['chat'])
+          this.router.navigate(['chat/' + response.user._id]);
         },
         (error) => {
           this.msg = error.error.error;

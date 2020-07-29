@@ -1,11 +1,12 @@
 <div class="container-fluid p-0 h-100">
-  <div class="container" style="height: 16%;background-color: #00d68f; padding: 0;">
+  <div class="container" style="height: 16%;background-color: #00bfa5; padding: 0;">
     <mat-list class="p-0">
       <mat-list-item>
           <img
             matListAvatar
-            src="https://www.w3schools.com/howto/img_avatar2.png"
+            [src]='imgSrc'
             alt="..."
+            (click)='onProfile()'
           />
           <span class="text-white font-weight-bold pb-3 pl-2">{{currentUser.name}}</span>
           <mat-divider></mat-divider>
@@ -21,9 +22,8 @@
     </mat-list>
   </div>
 
-  <div class="row overflow-auto" style="height: 84%;" >
+  <div class="container overflow-auto" style="height: 84%;padding: 0;" >
     
-
     <ng-container *ngIf="isLoading; else elseTemplate">
       <app-loading></app-loading>
     </ng-container>
@@ -36,7 +36,7 @@
         >
           <img
             matListAvatar
-            src="https://www.w3schools.com/howto/img_avatar2.png"
+            [src]= "handleRecipient(conversation.recipients).imagePath"
             alt="..."
           />
           <h3 matLine class="font-weight-bolder">
@@ -50,7 +50,7 @@
             <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType == 'image'"> -- Image</span>
             <span class="demo-2 text-dark font-weight-bold" *ngIf="conversation.msgType == 'video'"> -- Video</span>
           </p>
-          <mat-divider></mat-divider>
+          <mat-divider ></mat-divider>
         </mat-list-item>
       </mat-list>
 

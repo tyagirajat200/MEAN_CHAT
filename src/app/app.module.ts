@@ -1,9 +1,9 @@
 import { ChatService } from './chat.service';
-import { AppService } from './app.service';
+import { AuthInterceptor  } from './app.service';
 import { DatabaseService } from './database.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { NgModule} from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,11 +24,14 @@ import { AngularFireStorageModule } from "@angular/fire/storage";
 import { AngularFireModule } from "@angular/fire";
 import { environment } from "../environments/environment";
 import { LoadingComponent } from './loading/loading.component';
+import { ProfileComponent } from './User/profile/profile.component';
+import { ForgotPasswordComponent } from './User/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
+import { IncomingVideoComponent } from './video/incoming-video/incoming-video.component';
+import { OutgoingVideoComponent } from './video/outgoing-video/outgoing-video.component';
 
 
-export function app_init(appService: AppService) {
-  return () => appService.initializeApp();
-}
+
 
 @NgModule({
   declarations: [
@@ -41,7 +44,11 @@ export function app_init(appService: AppService) {
     NewUserComponent,
     SideboxComponent,
     LoadingComponent,
-
+    ProfileComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    IncomingVideoComponent,
+    OutgoingVideoComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,9 +63,12 @@ export function app_init(appService: AppService) {
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [DatabaseService ,ChatService ,
-     AppService, {
-    provide: APP_INITIALIZER, useFactory: app_init, deps: [AppService], multi: true}
+  providers: [DatabaseService ,ChatService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

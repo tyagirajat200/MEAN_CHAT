@@ -1,3 +1,5 @@
+import { ResetPasswordComponent } from './User/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './User/forgot-password/forgot-password.component';
 import { PublicGuard } from './AuthRoutes/public.guard';
 import { PrivateGuard } from './AuthRoutes/private.guard';
 import { ChatHomeComponent } from './chat/chat-home/chat-home.component';
@@ -23,13 +25,20 @@ const routes: Routes = [
     canActivate:[PublicGuard]
   },
   {
-    path: 'chat',
+    path: 'chat/:id',
+    pathMatch:'full',
     component: ChatHomeComponent,
     canActivate: [PrivateGuard],
   },
   {
-    path: 'chat/:id',
-    component: ChatHomeComponent,
+    path: 'forget-password',
+    pathMatch:'full',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'forget-password/:token',
+    pathMatch:'full',
+    component: ResetPasswordComponent,
   },
   { 
     path: '**', 

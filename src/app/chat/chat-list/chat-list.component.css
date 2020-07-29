@@ -19,3 +19,7 @@ cursor: pointer;
     font-size: 10px;
     margin-left: 1rem;
   }
+
+  img{
+    cursor: pointer;
+  }

@@ -1,12 +1,12 @@
 
-    <div  class="container"  style="background-color: #00d68f; height: 11%">
+    <div  class="container"  style="background-color: #00bfa5; height: 11%">
 
       <div class="w-100">
         <mat-list class="p-0 float-left"  *ngIf="selectedUser">
           <mat-list-item>
             <img
             matListAvatar
-            src="https://www.w3schools.com/howto/img_avatar2.png"
+            [src]='selectedUser.imagePath || "https://www.w3schools.com/howto/img_avatar2.png"'
             alt="..."
           />
           <h3 matLine class="font-weight-bold">{{ selectedUser.name}}</h3>
@@ -17,6 +17,12 @@
         </mat-list>
   
         <div class="float-right p-2">
+
+       <button type="button" class="btn p-0 mr-5" (click)='onVideoCall()'*ngIf="selectedUser" onclick="document.getElementById('chatdash').style.display='none'">
+                <span style="font-size: 30px; color: rgb(245, 245, 245); padding-top: 6px;">
+                  <i class="fas fa-video"></i>
+                 </span>
+        </button>
 
           <app-new-user class="mr-4"></app-new-user>
 

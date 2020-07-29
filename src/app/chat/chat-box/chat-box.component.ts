@@ -1,8 +1,8 @@
 import { ChatService } from './../../chat.service';
 import { DatabaseService } from './../../database.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { finalize } from "rxjs/operators";
+
 
 import { AngularFireStorage } from "@angular/fire/storage";
 
@@ -18,7 +18,6 @@ export class ChatBoxComponent implements OnInit {
 
   isLoading = true
 
-  url :''
 
   // ******* Emoji **********//
   showEmojiPicker = false;
@@ -32,7 +31,7 @@ export class ChatBoxComponent implements OnInit {
       else
           this.newMesaage.get('message').patchValue(event.emoji.native)
   }
-  // ******* Emoji **********//
+  // ******* Emoji End **********//
 
 
   newMesaage = new FormGroup({
@@ -53,7 +52,8 @@ export class ChatBoxComponent implements OnInit {
         this.messages = res.messages;        
       },
       (error) => {
-        console.log(error.errro);
+        console.log(error.error);
+        alert('Failed to Load Chats')
       }
     );
   }
@@ -101,7 +101,7 @@ export class ChatBoxComponent implements OnInit {
               // this.messages = Object.assign([...this.messages, res.data]);
               this.newMesaage.get('message').patchValue('')
             },
-            (err) => console.log(err.error)
+            (err) => alert('Message Not Sent')
           );
       }
     }
@@ -123,6 +123,7 @@ export class ChatBoxComponent implements OnInit {
     },
     (error) => {
       console.log(error)
+      alert('Image Not Sent')
     },
     ()=>{
         fileRef.getDownloadURL().subscribe(url=>{
@@ -137,7 +138,7 @@ export class ChatBoxComponent implements OnInit {
                 (res: any) => {
                   console.log('message sent => ' ,res);
                 },
-                (err) => console.log(err.error)
+                (err) => alert('Image Not Sent')
               );
           }
         })

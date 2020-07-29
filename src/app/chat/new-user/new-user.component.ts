@@ -23,6 +23,7 @@ export class NewUserComponent implements OnInit {
   constructor(private auth : DatabaseService , private chat : ChatService) { }
 
   ngOnInit(): void {
+  console.log("New Chat");
   
   }
 

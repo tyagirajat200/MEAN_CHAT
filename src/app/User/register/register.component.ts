@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
+     this.registerForm.value.imagePath = 'https://www.w3schools.com/howto/img_avatar2.png'
       this.isloading=true
       this.auth.registerUser(this.registerForm.value).subscribe(
         (response) => {

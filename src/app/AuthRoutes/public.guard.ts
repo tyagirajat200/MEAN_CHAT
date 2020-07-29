@@ -23,7 +23,12 @@ export class PublicGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.auth.isAuth) return this.router.navigate(['chat']);
+    if (this.auth.isLoggedIn()) 
+    {
+      this.auth.userData = JSON.parse(localStorage.getItem('user'))
+      return this.router.navigate(['chat/' + this.auth.userData._id]);
+    }
+   
     else return true;
   }
 }

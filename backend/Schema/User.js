@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+const { strict } = require('assert')
 
 var user = new mongoose.Schema({
     name: {
@@ -16,9 +17,11 @@ var user = new mongoose.Schema({
         required: true,
         minlength: 8,
     },
-    image: {
+    imagePath: {
         type: String
-    }
+    },
+    passToken : String,
+    passExp  : String
 }, { timestamps: true })
 
 var Users = new mongoose.model('User', user)

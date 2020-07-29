@@ -1,14 +1,17 @@
-<div class="container-fluid parent" style="background-color:#ededed;">
 
+<div class="container-fluid parent">
+  <app-outgoing-video *ngIf="outgoingCall == true && incomingCall == false"></app-outgoing-video>
+  <app-incoming-video *ngIf="incomingCall == true && outgoingCall ==false"></app-incoming-video>
       <mat-card class="child p-0">
         <div class="row h-100 ">
-          <div class="col-sm-3 h-100 pr-0" >
-            <app-chat-list ></app-chat-list> 
+          <div class="col-sm-4 h-100 pr-0" >
+            <app-chat-list (profileTab)="profileTab($event)" *ngIf="viewProfile==false"></app-chat-list> 
+            <app-profile (profileTab)="profileTab($event)" *ngIf="viewProfile == true"></app-profile>
           </div>
           
-          <div class="col-sm-9 border-left border-dark h-100 pl-0" >
+          <div class="col-sm-8 border-left border-dark h-100 pl-0 " id="chatdash">
             <div class="container-fluid p-0 h-100">
-              <app-sidebox ></app-sidebox>
+              <app-sidebox></app-sidebox>
               <app-chat-box *ngIf="selectedUser"></app-chat-box>
 
               <div class="container-fluid image" *ngIf="!selectedUser">
@@ -20,8 +23,7 @@
           </div>
         </div>
       </mat-card>
-
   </div>
-  
-   
 
+  <!-- <app-video></app-video> -->
+   

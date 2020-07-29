@@ -14,22 +14,19 @@ export class ChatService {
  public selectedUser: BehaviorSubject<any> = new BehaviorSubject(null)
 
   constructor(private http : HttpClient , private data : DatabaseService) {    
-    this.socket = io('https://meanchatapp7599.herokuapp.com'+`?userId=${data.userData._id}`)
-
+   
   }
 
 sendConversationsMessages(message,id ,type){
- return this.http.post('/api/chat',{body:message,to:id,type:type},{withCredentials:true})
+ return this.http.post('/api/chat/'+this.data.userData._id+'/'+id,{body:message,type:type})
 }
 
 getConversationsMessages(id) {
- return this.http.get<any>('/api/chat/conversations/query/'+id,{withCredentials:true})
+ return this.http.get<any>('/api/chat/conversations/query/'+this.data.userData._id+'/'+id)
 }
 
 getConversationsList(){
-  console.log("getConversationsList()");
-  
-   return this.http.get<any>('/api/chat/conversations',{withCredentials:true})
+   return this.http.get<any>('/api/chat/conversations/'+this.data.userData._id)
 }
 
 
@@ -49,6 +46,7 @@ disconnect(){
 }
 
 connect(){
+  this.socket = io('http://localhost:4000'+`?userId=${this.data.userData._id}`)
   this.socket.open()
 }
 

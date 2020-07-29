@@ -1,6 +1,6 @@
 import { ChatService } from './../../chat.service';
 import { DatabaseService } from './../../database.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,15 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./chat-list.component.css'],
 })
 export class ChatListComponent implements OnInit {
+
+
+   @Output() profileTab : EventEmitter<any> =new EventEmitter()
+
+  onProfile(){
+    this.profileTab.emit(true)
+  }
+
+  public imgSrc ="https://www.w3schools.com/howto/img_avatar2.png"
   public conversations = [];
   public onlineUsers :any= []   // contain socketId and userId
   public result = [];
@@ -55,6 +64,9 @@ export class ChatListComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    if(this.data.userData.imagePath)
+        this.imgSrc = this.data.userData.imagePath
     
     this.reloadConversations()
  

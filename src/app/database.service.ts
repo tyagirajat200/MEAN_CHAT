@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { auth } from 'firebase';
 
 
 @Injectable({
@@ -7,36 +8,65 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DatabaseService {
 
-  isAuth: boolean = false;
-  userData : any =""
+  userData : any ={}
 
   constructor(private http: HttpClient) {
-   console.log("Database Service");
-   
+
   }
 
   loginUser(data) :any{
-
-    return this.http.post('/api/user/login', data , {withCredentials:true});
+    return this.http.post('/api/user/login', data);
   }
 
   registerUser(data) :any{
     return this.http.post('/api/user/register', data);
   }
 
-  authChecker(){
-   return this.http.get<any>('/api/user/authchecker',{ withCredentials: true}).toPromise()
+   isLoggedIn(): boolean {
+    let authToken = localStorage.getItem('access_token');
+    let user = localStorage.getItem('user')
+    
+  return (authToken !== null && user !=null) ? true : false;
+ 
   }
 
   logoutUser() : any{
-    return this.http.delete('/api/user/logout',{ withCredentials: true})
+    let removeToken = localStorage.removeItem('access_token');
+    let user= localStorage.removeItem('user')
+    if (removeToken == null && user == null) {
+      return true
+    }
+  }
+
+  getToken() {    
+    return localStorage.getItem('access_token');
   }
 
   getUsers() :any{
-    return this.http.get('/api/user/getUsers',{ withCredentials: true});
+    return this.http.get('/api/user/getUsers');
   }
 
   checkValid(email) :any{
-    return this.http.post('/api/user/checkValid', {email},{ withCredentials: true});
+    return this.http.post('/api/user/checkValid', {email});
+  }
+
+  updateProfileName(data)
+  {
+    return this.http.put('/api/user/updateProfile/name', data);
+  }
+  updateProfilePassword(data)
+  {
+    return this.http.put('/api/user/updateProfile/password', data);
+  }
+  updateProfileImage(data)
+  {
+    return this.http.put('/api/user/updateProfile/image', data);
+  }
+
+  forgetPassword(email) :any{
+    return this.http.post('/api/user/reset-password', email)
+  }
+  resetPassword(data) :any{
+    return this.http.post('/api/user/new-password', data)
   }
 }
