@@ -37,7 +37,7 @@ const iceServers = {
   styleUrls: ['./incoming-video.component.css']
 })
 export class IncomingVideoComponent implements OnInit {
-
+  navigator = <any>navigator
   constructor(private chat: ChatService, private video: VideoService ,private data : DatabaseService) {}
 
   msg = `Connected`
@@ -90,20 +90,20 @@ export class IncomingVideoComponent implements OnInit {
     }
 
 
-async setLocalStream(mediaConstraints) {
-  console.log(navigator.mediaDevices);
-  
-  await  navigator.mediaDevices.getUserMedia(mediaConstraints)
-      .then(mediaStream=>{
-        localStream = mediaStream;
-        localVideo= document.getElementById('local-video')
-        console.log(localVideo);
-        localVideo.srcObject = mediaStream
-      })
-      .catch(err=>{
-        console.log('navigator.getUserMedia error: ', err)
-      })
-    }
+    setLocalStream(mediaConstraints) {
+
+      this.navigator.getUserMedia = (this.navigator.getUserMedia ||this.navigator.webkitGetUserMedia
+        ||this.navigator.mozGetUserMedia ||this.navigator.msGetUserMedia );
+        this.navigator.mediaDevices.getUserMedia(mediaConstraints)
+        .then(mediaStream=>{
+          localStream = mediaStream;
+          localVideo= document.getElementById('local-video')
+            localVideo.srcObject = mediaStream
+        })
+        .catch(err=>{
+          console.log('navigator.getUserMedia error: ', err)
+        })
+      }
 
     setRemoteStream(event) {
       remoteVideo = document.getElementById('remote-video')

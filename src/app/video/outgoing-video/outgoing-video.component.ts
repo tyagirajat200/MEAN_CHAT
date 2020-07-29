@@ -39,6 +39,9 @@ let isAlreadyCalling = false;
   styleUrls: ['./outgoing-video.component.css']
 })
 export class OutgoingVideoComponent implements OnInit {
+
+  navigator = <any>navigator
+
   constructor(private chat: ChatService, private video: VideoService ,private data : DatabaseService) 
   {
     toID = this.chat.selectedUser.getValue()._id
@@ -116,7 +119,10 @@ export class OutgoingVideoComponent implements OnInit {
   }
 
   setLocalStream(mediaConstraints) {
-    navigator.mediaDevices.getUserMedia(mediaConstraints)
+
+    this.navigator.getUserMedia = (this.navigator.getUserMedia ||this.navigator.webkitGetUserMedia
+      ||this.navigator.mozGetUserMedia ||this.navigator.msGetUserMedia );
+      this.navigator.mediaDevices.getUserMedia(mediaConstraints)
       .then(mediaStream=>{
         localStream = mediaStream;
         localVideo= document.getElementById('local-video')
