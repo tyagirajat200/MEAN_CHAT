@@ -33,6 +33,22 @@ export class ChatHomeComponent implements OnInit {
      this.video.outgoingCall.subscribe(value=>this.outgoingCall = value )
      this.video.incommingCall.subscribe(value=>this.incomingCall = value )
 
+    //  this.video.callMade( ).subscribe( (data : any)=>{
+    //         console.log("dddd");
+    //   if (this.video.incommingCall.value == false && this.video.outgoingCall.value==false) {
+    //           const confirmed = confirm(
+    //             `User "Socket: ${data.fromID}" wants to call you. Do accept this call?`
+    //           )    
+    //           if (!confirmed) {
+    //             this.video.rejectCall(data)
+    //             this.video.incommingCall.next(false)
+    //             return;
+    //           }
+    //         }
+    //         this.video.incomingData.next(data)
+    //         this.video.incommingCall.next(true)
+    //  })
+
 
    this.chat.socket.on('request',data=>{
     console.log(data.fromID , 'is requesting you to join the call')
