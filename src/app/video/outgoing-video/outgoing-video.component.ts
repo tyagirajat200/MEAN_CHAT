@@ -3,12 +3,10 @@ import { ChatService } from 'src/app/chat.service';
 import { VideoService } from 'src/app/video.service';
 import { DatabaseService } from 'src/app/database.service';
 import 'webrtc-adapter'
-// rtc peer connection patch
-import 'zone.js/dist/webapis-rtc-peer-connection';
-// getUserMedia patch
-import 'zone.js/dist/zone-patch-user-media';
+
 
 const mediaConstraints = {
+  audio : true,
   video: true,
 }
 
