@@ -63,7 +63,7 @@ export class IncomingVideoComponent implements OnInit {
         }
       }
       rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp))
-      const answer = await rtcPeerConnection.createAnswer();
+      const answer = await rtcPeerConnection.createAnswer()
       await rtcPeerConnection.setLocalDescription(new RTCSessionDescription(answer))
       this.chat.socket.emit('webrtc_answer', {
         type: 'webrtc_answer',
@@ -87,10 +87,13 @@ export class IncomingVideoComponent implements OnInit {
 
 
 async setLocalStream(mediaConstraints) {
+  console.log(navigator.mediaDevices);
+  
   await  navigator.mediaDevices.getUserMedia(mediaConstraints)
       .then(mediaStream=>{
         localStream = mediaStream;
         localVideo= document.getElementById('local-video')
+        console.log(localVideo);
         localVideo.srcObject = mediaStream
       })
       .catch(err=>{

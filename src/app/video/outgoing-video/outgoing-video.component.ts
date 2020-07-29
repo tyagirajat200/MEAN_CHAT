@@ -77,7 +77,7 @@ export class OutgoingVideoComponent implements OnInit {
             })
           }
         }
-        const offer = await rtcPeerConnection.createOffer();
+        const offer = await rtcPeerConnection.createOffer()
         await rtcPeerConnection.setLocalDescription(new RTCSessionDescription(offer));
         this.chat.socket.emit('webrtc_offer', {
           type: 'webrtc_offer',

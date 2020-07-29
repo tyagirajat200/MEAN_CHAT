@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { auth } from 'firebase';
+import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from "@auth0/angular-jwt";
+const helper = new JwtHelperService();
+
+
+
 
 
 @Injectable({
@@ -11,7 +15,6 @@ export class DatabaseService {
   userData : any ={}
 
   constructor(private http: HttpClient) {
-
   }
 
   loginUser(data) :any{
@@ -25,8 +28,9 @@ export class DatabaseService {
    isLoggedIn(): boolean {
     let authToken = localStorage.getItem('access_token');
     let user = localStorage.getItem('user')
+    let exp = helper.isTokenExpired(authToken)
     
-  return (authToken !== null && user !=null) ? true : false;
+  return (authToken !== null && user !=null && exp !=true) ? true : false;
  
   }
 
