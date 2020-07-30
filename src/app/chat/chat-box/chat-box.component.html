@@ -21,8 +21,12 @@
           : 'row-reverse'
       "
     >
-    <p *ngIf="message.msgType =='text'" [ngClass]="{'first': message.from == selectedUser._id ,'second': message.from != selectedUser._id }"> {{ message.body }}</p>
-    
+    <p *ngIf="message.msgType =='text'" 
+    [ngClass]="{'first': message.from == selectedUser._id ,'second': message.from != selectedUser._id }">
+     {{ message.body}}
+     <span class="align-bottom ml-3" style="font-size: 11px;">{{setDate(message.createdAt)}}</span>
+    </p>
+   
     <img *ngIf="message.msgType == 'image'" class="mb-2" [src]="message.body" alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }">
     <video  *ngIf="message.msgType == 'video'" [src]="message.body" controls alt="" [ngClass]="{'img-first': message.from == selectedUser._id ,'img-second': message.from != selectedUser._id }" style="background-color: black;"></video>
   </li>
@@ -36,7 +40,7 @@
   
  </div>
  
- <div class="container" style="background-color: #f0f0f0; height: 7.8%;">
+ <div class="container" style="background-color: #f0f0f0; height: 7.8%; border-bottom-right-radius: 10px;">
   <form [formGroup]="newMesaage" (ngSubmit)="onSubmit()" class="pt-1">
     <span style="font-size: 25px;padding: 4px;"  class="toggle-emoji align-middle " (click)="toggleEmojiPicker()">
       <i class="fas fa-smile"></i>

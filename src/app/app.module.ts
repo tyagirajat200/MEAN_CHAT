@@ -1,3 +1,4 @@
+import { NotificationService } from './notification.service';
 import { ChatService } from './chat.service';
 import { AuthInterceptor  } from './app.service';
 import { DatabaseService } from './database.service';
@@ -30,7 +31,7 @@ import { ResetPasswordComponent } from './User/reset-password/reset-password.com
 import { IncomingVideoComponent } from './video/incoming-video/incoming-video.component';
 import { OutgoingVideoComponent } from './video/outgoing-video/outgoing-video.component';
 
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -61,9 +62,14 @@ import { OutgoingVideoComponent } from './video/outgoing-video/outgoing-video.co
     HttpClientModule,
     PickerModule,
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    ToastrModule.forRoot(  
+      {  
+        closeButton: true,  
+      }  
+    ) 
   ],
-  providers: [DatabaseService ,ChatService,
+  providers: [DatabaseService ,ChatService,NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -1,6 +1,7 @@
 import { DatabaseService } from './../../database.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AngularFireStorage } from "@angular/fire/storage";
+import { NotificationService } from 'src/app/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +34,7 @@ export class ProfileComponent implements OnInit {
   passwordLoading = false
 
   
-  constructor(private data : DatabaseService,private af : AngularFireStorage) { }
+  constructor(private data : DatabaseService,private af : AngularFireStorage,private notifyService : NotificationService) { }
 
   ngOnInit(): void {
     this.name =this.data.userData.name
@@ -82,10 +83,12 @@ export class ProfileComponent implements OnInit {
               console.log("Image Uploaded");
               localStorage.setItem('user',JSON.stringify(res.data))
               this.data.userData = res.data
-              this.msg='Image Uploaded Successfully'
+              // this.msg='Image Uploaded Successfully'
+              this.notifyService.showSuccess("Image Uploaded Successfully!!", "Notification")
             },
             err=>{
               alert('Please Try Again')
+              this.notifyService.showError("Please Try Again!!", "Alert")
               this.imageLoading = false
             })
             
@@ -95,7 +98,8 @@ export class ProfileComponent implements OnInit {
 
    }
    else{
-     alert('Please Select Image')
+    //  alert('Please Select Image')
+     this.notifyService.showWarning("Please Select Image !!", "Warning")
    }
   }
 
@@ -104,14 +108,16 @@ export class ProfileComponent implements OnInit {
       this.nameLoading = true
       var data = {name: this.name.trim() , id : this.data.userData._id}
       this.data.updateProfileName(data).subscribe((res : any)=>{
-        this.msg= res.msg
+        // this.msg= res.msg
+        this.notifyService.showSuccess(res.msg+"!!", "Notification")
         this.nameLoading = false
         this.error =false
         localStorage.setItem('user',JSON.stringify(res.data))
         this.data.userData = res.data
       },
       err=>{
-        this.msg= err.error.msg
+        // this.msg= err.error.msg
+        this.notifyService.showError(err.error.msg+"!!", "Alert")
         this.nameLoading = false
         this.error =true
       }
@@ -124,11 +130,13 @@ export class ProfileComponent implements OnInit {
        confirmPassword:this.confirmPassword.trim() , id:this.data.userData._id}
     this.data.updateProfilePassword(data).subscribe((res: any)=>{
       this.error =false
-      this.msg= res.msg
+      // this.msg= res.msg
+      this.notifyService.showSuccess(res.msg+"!!", "Notification")
       this.passwordLoading = false
     },
     err=>{
-      this.msg= err.error.msg
+      // this.msg= err.error.msg
+      this.notifyService.showError(err.error.msg+"!!", "Alert")
       this.passwordLoading = false
       this.error =true
     }

@@ -1,7 +1,7 @@
 .main{
     display: flex;
     flex-direction: column;
-    background-color: #00bfa5;
+    background-color: #ededed;
     text-align: center;
 }
 .close {

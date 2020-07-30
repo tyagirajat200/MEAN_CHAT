@@ -2,7 +2,7 @@ import { ChatService } from './../../chat.service';
 import { DatabaseService } from './../../database.service';
 import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import * as moment from 'moment';
 
 import { AngularFireStorage } from "@angular/fire/storage";
 
@@ -53,6 +53,7 @@ export class ChatBoxComponent implements OnInit {
       },
       (error) => {
         console.log(error.error);
+        this.isLoading = false
         alert('Failed to Load Chats')
       }
     );
@@ -64,6 +65,8 @@ export class ChatBoxComponent implements OnInit {
         this.isLoading =true
         this.selectedUser = user;
         this.reloadMessges(user);
+        this.container = document.getElementById("msgContainer");           
+        this.container.scrollTop = this.container.scrollHeight;  
       }
     });
 
@@ -72,7 +75,9 @@ export class ChatBoxComponent implements OnInit {
         this.chat.selectedUser.getValue() &&
         this.chat.selectedUser.getValue()._id == data.id
       ) {
-        this.messages = Object.assign([...this.messages, data.message]);
+        this.messages = Object.assign([...this.messages, data.message]);        
+        this.container = document.getElementById("msgContainer");           
+        this.container.scrollTop = this.container.scrollHeight;  
       }
     });
 
@@ -150,6 +155,10 @@ export class ChatBoxComponent implements OnInit {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chat.selectedUser.next(null)
-    
+  }
+
+  setDate(date)
+  {
+    return moment(date).format("hh:mm")
   }
 }

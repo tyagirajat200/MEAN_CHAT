@@ -58,10 +58,10 @@ router.post('/:user1/:user2', authChecker, (req, res) => {
                 message.save((err, data) => {
                     if (err) return res.status(400).json({ message: 'Failure' });
                     res.json({ success: true, data });
-                    if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1); }
-                    req.io.to(sender.socketId).emit('messages', data, user2);
-                    // req.io.to(user2).emit('messages', data, user1);
-                    // req.io.to(user1).emit('messages', data, user2);
+                    // if (reciever) { req.io.to(reciever.socketId).emit('messages', data, user1); }
+                    // req.io.to(sender.socketId).emit('messages', data, user2);
+                    req.io.sockets.to(user2).emit('messages', data, user1);
+                    req.io.sockets.to(user1).emit('messages', data, user2);
                 });
             }
         }

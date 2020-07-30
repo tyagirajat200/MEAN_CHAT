@@ -1,9 +1,11 @@
 
   <div  class="container main p-0 h-100" id="profile">
-    <div class=" d-flex flex-row pl-2 pt-3">
+    <div class=" d-flex flex-row pl-2 pt-3" style="height: 12.4%;background-color: #00bfa5;">
       <span (click) ='onProfile()' class="close"> <i class="fas fa-arrow-left"></i>  </span>
+      <span style="font-size: 19px; color: white;padding-left: 12px;">Profile</span>
       <span>
-        <p class="h5 m-0 pl-3" [ngClass]="{'text-danger': error ==true , 'text-white' : error == false}">{{msg}}</p>
+        <br><br>
+        <p class="h5 m-0 pl-2" [ngClass]="{'text-danger': error ==true , 'text-white' : error == false}">{{msg}}</p>
       </span>
     </div>
 

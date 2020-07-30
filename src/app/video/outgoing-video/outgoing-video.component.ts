@@ -67,7 +67,6 @@ export class OutgoingVideoComponent implements OnInit {
 
     this.chat.socket.on('start_call', async (data) => {
       console.log('Socket event callback: start_call')
-      console.log(data , "start Call");
         this.msg = `${this.chat.selectedUser.value.name} accepted your request`
         rtcPeerConnection = new RTCPeerConnection(iceServers)
         localStream.getTracks().forEach((track) => {rtcPeerConnection.addTrack(track, localStream)})

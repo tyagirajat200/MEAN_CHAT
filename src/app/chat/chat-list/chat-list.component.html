@@ -29,10 +29,8 @@
     </ng-container>
     <ng-template #elseTemplate>
       <mat-list class="p-0">
-        <mat-list-item
-          *ngFor="let conversation of conversations"
-          (click)="setUser(conversation)"
-          class="cursor"
+        <mat-list-item  *ngFor="let conversation of conversations"   (click)="setUser(conversation)"   class="cursor"
+        [ngStyle]="{'background-color':conversation._id == selectedConv  ? '#ebebeb' : '' }"
         >
           <img
             matListAvatar

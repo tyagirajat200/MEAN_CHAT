@@ -3,6 +3,7 @@ import { ChatService } from './../../chat.service';
 import { Router } from '@angular/router';
 import { DatabaseService } from './../../database.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { NotificationService } from 'src/app/notification.service';
 
 @Component({
   selector: 'app-sidebox',
@@ -23,7 +24,8 @@ export class SideboxComponent implements OnInit {
     private auth: DatabaseService,
     private router: Router,
     private chat: ChatService,
-    private video  :VideoService
+    private video  :VideoService,
+    private notifyService : NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class SideboxComponent implements OnInit {
       this.router.navigate(['login']);
       this.chat.disconnect();
       console.log('Log out Successfully');
+      this.notifyService.showSuccess( "Log out Successfully !!", "Notification")
     }
     
   }

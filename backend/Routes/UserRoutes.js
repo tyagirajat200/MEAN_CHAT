@@ -16,16 +16,34 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+function checkemail(email)
+{
+    const re =/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g
+    return re.test(email)
+}
+
+function checkpassword(password)
+{
+    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/
+    return re.test(password)
+}
+
 
 router.post('/register', (req, res) => {
-    const { name, email, password, cpassword, imagePath } = req.body
+    const name = req.body.name.trim()
+    const email = req.body.email.trim()
+    const password = req.body.password.trim()
+    const cpassword = req.body.cpassword.trim()
 
     if (!name || !email || !password || !cpassword) {
         return res.status(400).json({ error: "Please Enter All Fields" });
     }
 
-    if (password.length < 8) {
-        return res.status(400).json({ error: "Password should be atleast 8 characters long" });
+    if(!checkemail(email.toLocaleLowerCase()))
+        return res.status(400).json({error  :'Not a valid email'})
+
+    if (!checkpassword(password)) {
+        return res.status(400).json({ error: "Password validation failed" });
     }
 
     if (password !== cpassword) {
@@ -63,7 +81,8 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
 
-    const { email, password } = req.body
+    const email = req.body.email
+    const password = req.body.password
 
     if (!email || !password)
         return res.status(400).json({ error: 'Please Enter All Fields' })
@@ -85,7 +104,7 @@ router.post('/login', (req, res) => {
             });
 
 
-            res.json({ msg: "LoggedIn SuccessFully", token: jwtToken, expiresIn: 3600, auth: true, user: User })
+            res.json({ msg: "Log In Successfully", token: jwtToken, expiresIn: 3600, auth: true, user: User })
         })
     })
 
@@ -113,12 +132,14 @@ router.post('/checkValid', authChecker, (req, res) => {
 
 
 router.put('/updateProfile/name', authChecker, (req, res) => {
-    if (!req.body.name) {
+    const name = req.body.name.trim()
+
+    if (!name) {
         return res.status(400).json({ msg: "Name Cannot Be Empty" });
     }
 
-    if (req.body.name && req.body.id) {
-        Users.findByIdAndUpdate(req.body.id, { name: req.body.name }, { new: true }).select("-password -__v").exec((err, data) => {
+    if (name && req.body.id) {
+        Users.findByIdAndUpdate(req.body.id, { name: name}, { new: true }).select("-password -__v").exec((err, data) => {
             if (!err) return res.json({ msg: 'Name Updated Successfully', data: data })
         })
     }
@@ -142,26 +163,30 @@ router.put('/updateProfile/image', authChecker, (req, res) => {
 
 
 router.put('/updateProfile/password', authChecker, (req, res) => {
-    if (!req.body.oldPassword || !req.body.newPassword || !req.body.confirmPassword) {
+
+    const oldPassword = req.body.oldPassword.trim()
+    const newPassword = req.body.newPassword.trim()
+    const confirmPassword = req.body.confirmPassword.trim()
+    if (!oldPassword || !newPassword || !confirmPassword) {
         return res.status(400).json({ msg: "All Fields Are Required" });
     }
 
-    if (req.body.oldPassword && req.body.newPassword && req.body.confirmPassword && req.body.id) {
+    if (oldPassword && newPassword && confirmPassword && req.body.id) {
 
         Users.findById(req.body.id).exec((err, user) => {
-            bcrypt.compare(req.body.oldPassword, user.password).then((isMatch) => {
+            bcrypt.compare(oldPassword, user.password).then((isMatch) => {
                 if (!isMatch) return res.status(400).json({ msg: "Old Password Incorrect" });
 
-                if (req.body.newPassword.length < 8) {
-                    return res.status(400).json({ msg: "Minimum 8 characters required" });
+                if (!checkpassword(newPassword)) {
+                    return res.status(400).json({ msg: "New Password validation failed" });
                 }
 
-                if (req.body.newPassword !== req.body.confirmPassword) {
+                if (newPassword !==confirmPassword) {
                     return res.status(400).json({ msg: "Confirm Password Does Not Match" });
                 }
 
                 bcrypt.genSalt(12, function (err, salt) {
-                    bcrypt.hash(req.body.newPassword, salt, function (err, hash) {
+                    bcrypt.hash(newPassword, salt, function (err, hash) {
                         if (err) throw err
                         Users.findByIdAndUpdate(req.body.id, { password: hash }, { new: true }).select("-password -__v").exec((err, data) => {
                             if (!err) return res.json({ msg: 'Password Changed SuccessFully', data: data })
@@ -213,16 +238,16 @@ router.post('/reset-password', (req, res) => {
 
 
 router.post('/new-password', (req, res) => {
-    const newPassword = req.body.password
-    const cPassword = req.body.cpassword
+    const newPassword = req.body.password.trim()
+    const cPassword = req.body.cpassword.trim()
     const sentToken = req.body.token
 
     if (!newPassword || !cPassword) {
         return res.status(400).json({ msg: "Please Enter All Fields" });
     }
 
-    if (newPassword.length < 8) {
-        return res.status(400).json({ msg: "atleast 8 characters long" });
+    if (!checkpassword(newPassword)) {
+        return res.status(400).json({ msg: "Password Validation Failed" });
     }
 
     if (newPassword !== cPassword) {

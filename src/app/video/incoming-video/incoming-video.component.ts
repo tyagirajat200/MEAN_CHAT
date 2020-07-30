@@ -89,7 +89,6 @@ export class IncomingVideoComponent implements OnInit {
 
 
     setLocalStream(mediaConstraints) {
-
       this.navigator.getUserMedia = (this.navigator.getUserMedia ||this.navigator.webkitGetUserMedia
         ||this.navigator.mozGetUserMedia ||this.navigator.msGetUserMedia );
         this.navigator.mediaDevices.getUserMedia(mediaConstraints)

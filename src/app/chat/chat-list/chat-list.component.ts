@@ -23,6 +23,7 @@ export class ChatListComponent implements OnInit {
   public result = [];
 
   public currentUser = this.data.userData
+  public selectedConv :any
 
   isLoading  = true
 
@@ -101,7 +102,8 @@ export class ChatListComponent implements OnInit {
 
 
   setUser(conversation) {
-    this.chat.selectedUser.next(this.handleRecipient(conversation.recipients));  
+    this.chat.selectedUser.next(this.handleRecipient(conversation.recipients));
+    this.selectedConv = conversation._id
   }
 
 }
