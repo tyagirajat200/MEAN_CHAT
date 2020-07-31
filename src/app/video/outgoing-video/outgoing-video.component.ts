@@ -135,9 +135,9 @@ export class OutgoingVideoComponent implements OnInit {
       .then(mediaStream=>{
         localStream = mediaStream;
         localVideo= document.getElementById('local-video')
-        localVideo.volume=0
-        localVideo.muted = true
-        localVideo.srcObject = mediaStream
+          localVideo.volume=0
+            localVideo.muted = true
+            localVideo.srcObject = mediaStream
       })
       .catch(err=>{
         console.log('navigator.getUserMedia error: ', err)
