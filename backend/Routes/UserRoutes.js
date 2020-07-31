@@ -218,14 +218,11 @@ router.post('/reset-password', (req, res) => {
                                 `
                             }
                             sgMail.send(msg)
-                                .then(res => {
+                                .then(re => {
                                     console.log("mail sent")
                                     return res.json({ msg: 'Check Your Inbox/Spam' })
                                 })
-                                .catch(err => {
-                                    console.log('Some Error')
-                                    return res.json({ msg: 'Error' })
-                                })
+                                .catch(err=>console.log('error'))
                         }
                     })
                 }
