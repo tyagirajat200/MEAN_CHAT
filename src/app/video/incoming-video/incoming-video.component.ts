@@ -42,6 +42,7 @@ export class IncomingVideoComponent implements OnInit {
 
   onClose()
   {
+    localStream.getTracks().forEach(function(track) { track.stop(); })
     document.getElementById('chatdash').style.display=''
     this.video.incommingCall.next(false)
     
