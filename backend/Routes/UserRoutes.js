@@ -9,10 +9,10 @@ const jwt = require("jsonwebtoken");
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(config.SENDGRID_API_KEY);
 
-function checkemail(email) {
-    const re = /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g
-    return re.test(email)
-}
+// function checkemail(email) {
+//     const re = /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g
+//     return re.test(email)
+// }
 
 function checkpassword(password) {
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/
@@ -31,8 +31,8 @@ router.post('/register', (req, res) => {
         return res.status(400).json({ error: "Please Enter All Fields" });
     }
 
-    if (!checkemail(email.toLocaleLowerCase()))
-        return res.status(400).json({ error: 'Not a valid email' })
+    // if (!checkemail(email.toLocaleLowerCase()))
+    //     return res.status(400).json({ error: 'Not a valid email' })
 
     if (!checkpassword(password)) {
         return res.status(400).json({ error: "Password validation failed" });

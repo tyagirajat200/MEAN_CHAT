@@ -14,7 +14,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(private data  :DatabaseService) { }
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required,Validators.pattern(/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g)])
+    email: new FormControl('', [Validators.required,Validators.email])
   });
 
   ngOnInit(): void {
