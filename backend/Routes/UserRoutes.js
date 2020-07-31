@@ -1,26 +1,13 @@
 var express = require('express')
 var router = express.Router()
 var bcrypt = require('bcryptjs')
-var nodemailer = require('nodemailer')
 var crypto = require('crypto')
 var Users = require('../Schema/User')
 var config = require('../config/key')
 const authChecker = require('../Middleware/Auth')
 const jwt = require("jsonwebtoken");
-const sgTransport = require('nodemailer-sendgrid-transport');
-
-// var transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'cu.16bcs1182@gmail.com',
-//         pass: config.PASSWORD
-//     }
-// });
-const transporter = nodemailer.createTransport(sgTransport({
-    auth: {
-        api_key: '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'
-    }
-}))
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(config.SENDGRID_API_KEY);
 
 function checkemail(email)
 {
@@ -223,15 +210,16 @@ router.post('/reset-password', (req, res) => {
                     user.passExp = Date.now() + 3600000
                     user.save((err, data) => {
                         if (!err) {
-                            transporter.sendMail({
-                                from: "cu.16bcs1182@gmail.com",
+                            const msg ={
+                                from: "no-reply@chat.com",
                                 to: user.email,
-                                subject: "password reset",
+                                subject: "Password reset",
                                 html: `
                                 <p>You requested for password reset</p>
-                                <h5>click in this <a href="http://localhost:4200/forget-password/${token}">link</a> to reset password</h5>
+                                <h5>Click in this <a href="http://localhost:4200/forget-password/${token}">link</a> to reset password</h5>
                                 `
-                            }).then(res => console.log("mail sent")).catch(err => console.log('Some Error'))
+                            }
+                            sgMail.send(msg).then(res => console.log("mail sent")).catch(err => console.log('Some Error'))
                             return res.json({ msg: 'Check Your Inbox/Spam' })
                         }
                     })

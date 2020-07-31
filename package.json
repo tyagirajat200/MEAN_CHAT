@@ -25,6 +25,7 @@
     "@angular/router": "~10.0.2",
     "@auth0/angular-jwt": "^5.0.1",
     "@ctrl/ngx-emoji-mart": "^4.0.2",
+    "@sendgrid/mail": "^7.2.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.0.0-alpha1",
