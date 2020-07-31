@@ -7,14 +7,20 @@ var Users = require('../Schema/User')
 var config = require('../config/key')
 const authChecker = require('../Middleware/Auth')
 const jwt = require("jsonwebtoken");
+const sgTransport = require('nodemailer-sendgrid-transport');
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
+// var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'cu.16bcs1182@gmail.com',
+//         pass: config.PASSWORD
+//     }
+// });
+const transporter = nodemailer.createTransport(sgTransport({
     auth: {
-        user: 'cu.16bcs1182@gmail.com',
-        pass: config.PASSWORD
+        api_key: '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'
     }
-});
+}))
 
 function checkemail(email)
 {
@@ -217,7 +223,6 @@ router.post('/reset-password', (req, res) => {
                     user.passExp = Date.now() + 3600000
                     user.save((err, data) => {
                         if (!err) {
-                            console.log(config.PASSWORD);
                             transporter.sendMail({
                                 from: "cu.16bcs1182@gmail.com",
                                 to: user.email,
@@ -227,7 +232,7 @@ router.post('/reset-password', (req, res) => {
                                 <h5>click in this <a href="http://localhost:4200/forget-password/${token}">link</a> to reset password</h5>
                                 `
                             }).then(res => console.log("mail sent")).catch(err => console.log('Some Error'))
-                            return res.json({ msg: 'Check Your email' })
+                            return res.json({ msg: 'Check Your Inbox/Spam' })
                         }
                     })
                 }

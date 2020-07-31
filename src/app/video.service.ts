@@ -13,29 +13,29 @@ export class VideoService {
 
   constructor(private chat: ChatService) {}
 
-  callUser(offer, toID ,fromID) {
-    this.chat.socket.emit('call-user', { offer, toID , fromID });
-  }
+  // callUser(offer, toID ,fromID) {
+  //   this.chat.socket.emit('call-user', { offer, toID , fromID });
+  // }
 
-  callMade() {
-    return new Observable((observer) => {
-      this.chat.socket.on('call-made', (data) => {
-        observer.next(data);
-      });
-    });
-  }
+  // callMade() {
+  //   return new Observable((observer) => {
+  //     this.chat.socket.on('call-made', (data) => {
+  //       observer.next(data);
+  //     });
+  //   });
+  // }
 
-  makeAnswer(answer, data) {
-    this.chat.socket.emit('make-answer', { answer, fromID: data.fromID , toID :data.toID });
-  }
+  // makeAnswer(answer, data) {
+  //   this.chat.socket.emit('make-answer', { answer, fromID: data.fromID , toID :data.toID });
+  // }
 
-  answerMade() {
-    return new Observable((observer) => {
-      this.chat.socket.on('answer-made', (data) => {
-        observer.next(data);
-      });
-    });
-  }
+  // answerMade() {
+  //   return new Observable((observer) => {
+  //     this.chat.socket.on('answer-made', (data) => {
+  //       observer.next(data);
+  //     });
+  //   });
+  // }
 
   rejectCall(data) {
     this.chat.socket.emit('reject-call', {
