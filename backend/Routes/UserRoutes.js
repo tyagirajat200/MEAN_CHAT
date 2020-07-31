@@ -9,14 +9,12 @@ const jwt = require("jsonwebtoken");
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(config.SENDGRID_API_KEY);
 
-function checkemail(email)
-{
-    const re =/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g
+function checkemail(email) {
+    const re = /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g
     return re.test(email)
 }
 
-function checkpassword(password)
-{
+function checkpassword(password) {
     const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$/
     return re.test(password)
 }
@@ -32,8 +30,8 @@ router.post('/register', (req, res) => {
         return res.status(400).json({ error: "Please Enter All Fields" });
     }
 
-    if(!checkemail(email.toLocaleLowerCase()))
-        return res.status(400).json({error  :'Not a valid email'})
+    if (!checkemail(email.toLocaleLowerCase()))
+        return res.status(400).json({ error: 'Not a valid email' })
 
     if (!checkpassword(password)) {
         return res.status(400).json({ error: "Password validation failed" });
@@ -55,7 +53,7 @@ router.post('/register', (req, res) => {
                     name: req.body.name,
                     email: req.body.email,
                     password: hash,
-                    imagePath :imagePath
+                    imagePath: imagePath
                 })
 
                 newUser.save((err, user) => {
@@ -132,7 +130,7 @@ router.put('/updateProfile/name', authChecker, (req, res) => {
     }
 
     if (name && req.body.id) {
-        Users.findByIdAndUpdate(req.body.id, { name: name}, { new: true }).select("-password -__v").exec((err, data) => {
+        Users.findByIdAndUpdate(req.body.id, { name: name }, { new: true }).select("-password -__v").exec((err, data) => {
             if (!err) return res.json({ msg: 'Name Updated Successfully', data: data })
         })
     }
@@ -174,7 +172,7 @@ router.put('/updateProfile/password', authChecker, (req, res) => {
                     return res.status(400).json({ msg: "New Password validation failed" });
                 }
 
-                if (newPassword !==confirmPassword) {
+                if (newPassword !== confirmPassword) {
                     return res.status(400).json({ msg: "Confirm Password Does Not Match" });
                 }
 
@@ -210,17 +208,24 @@ router.post('/reset-password', (req, res) => {
                     user.passExp = Date.now() + 3600000
                     user.save((err, data) => {
                         if (!err) {
-                            const msg ={
+                            const msg = {
                                 from: "no-reply@chat.com",
                                 to: user.email,
                                 subject: "Password reset",
                                 html: `
                                 <p>You requested for password reset</p>
-                                <h5>Click in this <a href="http://localhost:4200/forget-password/${token}">link</a> to reset password</h5>
+                                <h5>Click in this <a href="https://meanchatapp7599.herokuapp.com/forget-password/${token}">link</a> to reset password</h5>
                                 `
                             }
-                            sgMail.send(msg).then(res => console.log("mail sent")).catch(err => console.log('Some Error'))
-                            return res.json({ msg: 'Check Your Inbox/Spam' })
+                            sgMail.send(msg)
+                                .then(res => {
+                                    console.log("mail sent")
+                                    return res.json({ msg: 'Check Your Inbox/Spam' })
+                                })
+                                .catch(err => {
+                                    console.log('Some Error')
+                                    return res.json({ msg: 'Error' })
+                                })
                         }
                     })
                 }

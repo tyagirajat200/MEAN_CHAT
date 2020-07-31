@@ -46,7 +46,7 @@ disconnect(){
 }
 
 connect(){
-  this.socket = io('http://localhost:4000'+`?userId=${this.data.userData._id}`)
+  this.socket = io('https://meanchatapp7599.herokuapp.com'+`?userId=${this.data.userData._id}`)
   this.socket.open()
 }
 
