@@ -79,7 +79,8 @@ io.on('connection', (socket) => {
 
   socket.on('join', (data) => {
       console.log(`Requesting ${data.toID} to join request by ${data.fromID}`)
-      socket.to(data.toID).emit('request', {fromID :data.fromID , toID : data.toID})
+      const a = users.find(user => user.userId == data.toID)
+      socket.to(data.toID).emit('request', {fromID :data.fromID , toID : data.toID ,fromName:data.fromName})
   })
 
   socket.on('start_call', (data) => {

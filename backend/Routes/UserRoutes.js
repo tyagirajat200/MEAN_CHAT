@@ -25,6 +25,7 @@ router.post('/register', (req, res) => {
     const email = req.body.email.trim()
     const password = req.body.password.trim()
     const cpassword = req.body.cpassword.trim()
+    const imagePath =req.body.imagePath
 
     if (!name || !email || !password || !cpassword) {
         return res.status(400).json({ error: "Please Enter All Fields" });

@@ -51,10 +51,10 @@ export class ChatHomeComponent implements OnInit {
 
 
    this.chat.socket.on('request',data=>{
-    console.log(data.fromID , 'is requesting you to join the call')
+    console.log(data.fromName , 'is requesting you to join the call')
        if (this.video.incommingCall.value == false && this.video.outgoingCall.value==false) {
         const confirmed = confirm(
-          `User "Socket: ${data.fromID}" wants to call you. Do accept this call?`
+          `${data.fromName} wants to call you. Do accept this call?`
         )    
         if (!confirmed) {
           this.video.rejectCall(data)
@@ -67,7 +67,7 @@ export class ChatHomeComponent implements OnInit {
           setTimeout(() => {
             this.chat.socket.emit('start_call', data)
             console.log("start")
-           }, 6000);
+           }, 5000);
         }
       }
      else
