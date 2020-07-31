@@ -34,11 +34,13 @@ const routes: Routes = [
     path: 'forget-password',
     pathMatch:'full',
     component: ForgotPasswordComponent,
+    canActivate:[PublicGuard]
   },
   {
     path: 'forget-password/:token',
     pathMatch:'full',
     component: ResetPasswordComponent,
+    canActivate:[PublicGuard]
   },
   { 
     path: '**', 
