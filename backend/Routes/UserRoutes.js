@@ -217,6 +217,7 @@ router.post('/reset-password', (req, res) => {
                     user.passExp = Date.now() + 3600000
                     user.save((err, data) => {
                         if (!err) {
+                            console.log(config.PASSWORD);
                             transporter.sendMail({
                                 from: "cu.16bcs1182@gmail.com",
                                 to: user.email,
