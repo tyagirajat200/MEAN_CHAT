@@ -1,3 +1,4 @@
+import { NotificationService } from './../../notification.service';
 import { VideoService } from './../../video.service';
 import { ChatService } from './../../chat.service';
 
@@ -21,7 +22,7 @@ export class ChatHomeComponent implements OnInit {
   incomingCall= false
   outgoingCall= false
   
-  constructor(private chat :ChatService , private video: VideoService) {}
+  constructor(private chat :ChatService , private video: VideoService ,private notification : NotificationService) {}
 
   ngOnInit(): void {
     this.chat.connect()
@@ -33,48 +34,34 @@ export class ChatHomeComponent implements OnInit {
      this.video.outgoingCall.subscribe(value=>this.outgoingCall = value )
      this.video.incommingCall.subscribe(value=>this.incomingCall = value )
 
-    //  this.video.callMade( ).subscribe( (data : any)=>{
-    //         console.log("dddd");
-    //   if (this.video.incommingCall.value == false && this.video.outgoingCall.value==false) {
-    //           const confirmed = confirm(
-    //             `User "Socket: ${data.fromID}" wants to call you. Do accept this call?`
-    //           )    
-    //           if (!confirmed) {
-    //             this.video.rejectCall(data)
-    //             this.video.incommingCall.next(false)
-    //             return;
-    //           }
-    //         }
-    //         this.video.incomingData.next(data)
-    //         this.video.incommingCall.next(true)
-    //  })
-
-
    this.chat.socket.on('request',data=>{
     console.log(data.fromName , 'is requesting you to join the call')
        if (this.video.incommingCall.value == false && this.video.outgoingCall.value==false) {
-        const confirmed = confirm(
-          `${data.fromName} wants to call you. Do accept this call?`
-        )    
-        if (!confirmed) {
+        this.notification.openConfirmDialog(data.fromName).afterClosed().subscribe(res=>{
+       if (!res) {
           this.video.rejectCall(data)
           this.video.incommingCall.next(false)
           return;
         }
         else{
           document.getElementById('chatdash').style.display='none'
+          this.video.userData.next(data)
           this.video.incommingCall.next(true)
-          setTimeout(() => {
-            this.chat.socket.emit('start_call', data)
-            console.log("start")
-           }, 5000);
+          // setTimeout(() => {
+          //   this.chat.socket.emit('start_call', data)
+          //   console.log("start")
+          //  }, 5000)
         }
+        })
       }
      else
         this.chat.socket.emit('busy',data)
    })
 
+   this.chat.socket.on('over' , data=>{
+    this.notification.closeConfirmDialog()
+   })
+
   }
-  
 }
 

@@ -62,6 +62,7 @@ export class OutgoingVideoComponent implements OnInit {
     toID = this.chat.selectedUser.getValue()._id
     fromID = this.data.userData._id,
     fromName = this.data.userData.name
+    rtcPeerConnection = new RTCPeerConnection(iceServers)
   }
 
 
@@ -69,7 +70,10 @@ export class OutgoingVideoComponent implements OnInit {
 
   onClose()
   {
-    localStream.getTracks().forEach(function(track) { track.stop(); })
+    this.chat.socket.emit('over' ,{toID : toID})
+      localStream.getTracks().forEach(function(track) { track.stop(); }) 
+      if(remoteStream) remoteStream.getTracks().forEach(function(track) { track.stop(); })
+    rtcPeerConnection.close()
     document.getElementById('chatdash').style.display=''
     this.video.outgoingCall.next(false)
   }
@@ -82,18 +86,12 @@ export class OutgoingVideoComponent implements OnInit {
     if(toID && fromID)
       {
       this.chat.socket.emit('join', {fromID,toID,fromName})
-      timerID=setTimeout(() => {
-        console.log('USER IS OFFLINE');
-        this.msg = `${this.chat.selectedUser.value.name} is offline`
-      }, 15000);
     }
     
-
     this.chat.socket.on('start_call', async (data) => {
-      clearTimeout(timerID)
       console.log('Socket event callback: start_call')
         this.msg = `${this.chat.selectedUser.value.name} accepted your request`
-        rtcPeerConnection = new RTCPeerConnection(iceServers)
+        // rtcPeerConnection = new RTCPeerConnection(iceServers)
         localStream.getTracks().forEach((track) => {rtcPeerConnection.addTrack(track, localStream)})
         rtcPeerConnection.ontrack = this.setRemoteStream
         rtcPeerConnection.onicecandidate = (event)=>{
@@ -116,8 +114,11 @@ export class OutgoingVideoComponent implements OnInit {
     })
 
      this.video.callRejected().subscribe((data: any) => {
-      this.msg = `${this.chat.selectedUser.value.name} rejected your call. Call Again`
-      clearTimeout(timerID)
+      localStream.getTracks().forEach(function(track) { track.stop(); })
+      if(remoteStream)  remoteStream.getTracks().forEach(function(track) { track.stop(); })
+      rtcPeerConnection.close()
+      document.getElementById('chatdash').style.display=''
+      this.video.outgoingCall.next(false)  
     })
 
     this.chat.socket.on('busy', (data)=>{
@@ -139,6 +140,14 @@ export class OutgoingVideoComponent implements OnInit {
         candidate: data.candidate,
       })
       rtcPeerConnection.addIceCandidate(candidate)
+    })
+
+    this.chat.socket.on('over', data=>{
+      localStream.getTracks().forEach(function(track) { track.stop(); })
+    if(remoteStream)  remoteStream.getTracks().forEach(function(track) { track.stop(); })
+      rtcPeerConnection.close()
+      document.getElementById('chatdash').style.display=''
+      this.video.outgoingCall.next(false)      
     })
   }
 
@@ -162,7 +171,6 @@ export class OutgoingVideoComponent implements OnInit {
      setRemoteStream(event) {
       remoteVideo = document.getElementById('remote-video')
       remoteVideo.srcObject = event.streams[0]
-      remoteStream = event.stream
+      remoteStream = event.streams[0]
     }
-
 }

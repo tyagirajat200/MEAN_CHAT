@@ -111,6 +111,10 @@ io.on('connection', (socket) => {
     socket.to(data.fromID).emit('busy',data)
   })
 
+  socket.on('over',data=>{
+    socket.to(data.toID).emit('over',data)
+  })
+
   socket.on('disconnect', () => {
     users = users.filter(user => user.socketId != socket.id)
     console.log('user disconnected = ', socket.id);

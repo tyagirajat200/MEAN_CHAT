@@ -51,16 +51,22 @@ const iceServers = {
 })
 export class IncomingVideoComponent implements OnInit {
   navigator = <any>navigator
-  constructor(private chat: ChatService, private video: VideoService ,private data : DatabaseService) {}
+  caller : any
+  constructor(private chat: ChatService, private video: VideoService ,private data : DatabaseService) {
+    rtcPeerConnection = new RTCPeerConnection(iceServers)
+    this.caller = this.video.userData.getValue()
+  }
 
   msg = `Connected`
 
   onClose()
   {
     localStream.getTracks().forEach(function(track) { track.stop(); })
+   if(remoteStream) remoteStream.getTracks().forEach(function(track) { track.stop(); })
+    rtcPeerConnection.close()
     document.getElementById('chatdash').style.display=''
+    this.chat.socket.emit('over' ,{toID : this.caller.fromID})
     this.video.incommingCall.next(false)
-    
   }
   ngOnInit(): void {
 
@@ -68,7 +74,7 @@ export class IncomingVideoComponent implements OnInit {
 
    this.chat.socket.on('webrtc_offer', async (data) => {
     console.log('Socket event callback: webrtc_offer')
-      rtcPeerConnection = new RTCPeerConnection(iceServers)
+      // rtcPeerConnection = new RTCPeerConnection(iceServers)
       localStream.getTracks().forEach((track) =>rtcPeerConnection.addTrack(track, localStream))
       rtcPeerConnection.ontrack = this.setRemoteStream
       rtcPeerConnection.onicecandidate = (event)=>{
@@ -100,6 +106,14 @@ export class IncomingVideoComponent implements OnInit {
     })
     rtcPeerConnection.addIceCandidate(candidate)
   })
+
+  this.chat.socket.on('over', data=>{
+    localStream.getTracks().forEach(function(track) { track.stop(); })
+    remoteStream.getTracks().forEach(function(track) { track.stop(); })
+    rtcPeerConnection.close()
+    document.getElementById('chatdash').style.display=''
+    this.video.incommingCall.next(false)
+  })
       
     }
 
@@ -114,6 +128,7 @@ export class IncomingVideoComponent implements OnInit {
             localVideo.volume=0
             localVideo.muted = true
             localVideo.srcObject = mediaStream
+            this.chat.socket.emit('start_call', this.video.userData.getValue())
         })
         .catch(err=>{
           console.log('navigator.getUserMedia error: ', err)
@@ -123,7 +138,7 @@ export class IncomingVideoComponent implements OnInit {
     setRemoteStream(event) {
       remoteVideo = document.getElementById('remote-video')
       remoteVideo.srcObject = event.streams[0]
-      remoteStream = event.stream    
+      remoteStream = event.streams[0]  
     }
     
 }

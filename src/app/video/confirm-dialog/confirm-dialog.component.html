@@ -1,0 +1,9 @@
+<mat-card class="overflow-hidden">
+
+    <h3 mat-dialog-title class="m-0 text-center font-weight-bold pt-1" style="font-size: 25px;">{{data.message}}</h3>
+
+    <div mat-dialog-actions class="justify-content-around">
+       <span class="rounded-circle bg-success p-2" style="transform: rotate(90deg);" [mat-dialog-close]='true'><i class="fa fa-phone fa-2x text-white"></i></span>
+       <span class="rounded-circle bg-danger p-2" style="transform: rotate(228deg);" [mat-dialog-close]='false'><i class="fa fa-phone fa-2x text-white"></i></span>
+    </div>
+</mat-card>

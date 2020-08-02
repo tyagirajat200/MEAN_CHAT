@@ -32,6 +32,7 @@ import { IncomingVideoComponent } from './video/incoming-video/incoming-video.co
 import { OutgoingVideoComponent } from './video/outgoing-video/outgoing-video.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { ConfirmDialogComponent } from './video/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
     ResetPasswordComponent,
     IncomingVideoComponent,
     OutgoingVideoComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +78,7 @@ import { ToastrModule } from 'ngx-toastr';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents : [ConfirmDialogComponent]
 })
 export class AppModule { }
